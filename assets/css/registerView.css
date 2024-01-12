@@ -1,0 +1,81 @@
+@import './registerView.css';
+
+:root {
+    --cor-grafite: #6e6e6e;
+}
+
+.menu-principal {
+    display: flex;
+    flex-direction: column;
+    margin: 4vh auto 8vh auto;
+    width: 50%;
+    background-color: var(--cor-branco);
+    padding: 0 1% 1% 1%;
+    border-radius: 8px;
+}
+
+section > header {
+    margin: 1vh 0 4vh 2vw;
+}
+
+section > header > h2 {
+    font-size: 2rem;
+    color: var(--cor-verde);
+}
+
+.formulario-cadastro-pessoa {
+    height: auto;
+}
+
+.lado-esquerdo-menu {
+    display: flex;
+    flex-direction: column;
+    float: left;
+    margin-left: 5vw;
+}
+
+.lado-direito-menu {
+    margin-right: 5vw;
+}
+
+.lado-direito-menu, .lado-direito-menu > main {
+    display: flex;
+    flex-direction: column;
+    float: right;
+}
+
+.lado-direito-menu > footer {
+    margin-top: 3vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.labels {
+    color: var(--cor-verde);
+}
+
+.campo-texto {
+    border-radius: 10px;
+    height: 4vh;
+    width: 15vw;
+    background-color: var(--cor-plano-de-fundo);
+    margin-bottom: 5%;
+}
+
+.botao-voltar {
+    background-color: var(--cor-grafite);
+}
+
+.botao-salvar {
+    background-color: var(--cor-verde);
+}
+
+.botao-salvar, .botao-voltar {
+    color: var(--cor-branco);
+    font-size: 1.6rem;
+    font-weight: bold;
+    border-radius: 18px;
+    height: 3rem;
+    width: 6rem;
+}
