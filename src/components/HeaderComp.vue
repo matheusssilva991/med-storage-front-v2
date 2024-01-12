@@ -4,12 +4,31 @@
         <div class="header-nav">
             <router-link to="/">Home</router-link>
             <router-link to="/register">Register</router-link>
-            <ButtonComp type="btn-primary" text="Button" icon="fa-solid fa-user-secret" @click="success"/>
-            <ButtonComp type="btn-secondary" text="Button" icon="fa-solid fa-user-secret" @click="info"/>
-            <ButtonComp type="btn-danger" text="Button" icon="fa-solid fa-user-secret" @click="error"/>
+            <ButtonComp class="button-container" type="btn-primary" text="Button" icon="fa-solid fa-user-secret" @click="success"/>
+            <ButtonComp class="button-container" type="btn-secondary" text="Button" icon="fa-solid fa-user-secret" @click="info"/>
+            <ButtonComp class="button-container" type="btn-danger" text="Button" icon="fa-solid fa-user-secret" @click="error"/>
+            <InputComp class="input-container" placeholder="Logar"/>
         </div>
     </header>
 </template>
+
+<script setup lang="ts">
+import ButtonComp from './ButtonComp.vue'
+import { toast } from 'vue3-toastify';
+import InputComp from './InputComp.vue';
+
+const success = () => {
+  toast.success('Logado com sucesso.');
+}
+
+const info = () => {
+  toast.info('Nada importante');
+}
+
+const error = () => {
+  toast.error('Erro ao logar.');
+}
+</script>
 
 <style scoped>
 
@@ -30,21 +49,12 @@
     gap: 1rem;
 }
 
+.button-container {
+  width: 100px;
+}
+
+.input-container {
+  width: 400px;
+}
+
 </style>
-
-<script setup lang="ts">
-import ButtonComp from './ButtonComp.vue'
-import { toast } from 'vue3-toastify';
-
-const success = () => {
-  toast.success('Logado com sucesso.');
-}
-
-const info = () => {
-  toast.info('Nada importante');
-}
-
-const error = () => {
-  toast.error('Erro ao logar.');
-}
-</script>

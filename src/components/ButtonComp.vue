@@ -36,15 +36,29 @@ const props = defineProps({
 
 <style scoped>
 button {
-    width: fit-content;
-    border-radius: var(--border-radius);
-    padding: 0.5rem 0.9rem;
-    cursor: pointer;
-    font-size: 1rem;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.7rem;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    gap: 0.5rem;
+}
+
+@media only screen and (max-width: 1023px) {
+    button {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.4rem;
+    }
+}
+
+@media only screen and (max-width: 719px) {
+    button {
+        font-size: 0.5rem;
+        padding: 0.35rem 0.35rem;
+    }
 }
 
 /* Primary */
