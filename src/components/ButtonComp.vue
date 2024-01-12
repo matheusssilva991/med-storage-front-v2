@@ -36,15 +36,15 @@ const props = defineProps({
 
 <style scoped>
 button {
-    widows: 100%;
+    width: fit-content;
     border-radius: var(--border-radius);
-    padding: 0.5rem 0.7rem;
+    padding: 0.5rem 0.9rem;
     cursor: pointer;
     font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 0.7rem;
 }
 
 /* Primary */
