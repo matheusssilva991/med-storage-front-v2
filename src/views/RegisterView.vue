@@ -5,8 +5,17 @@
         <h1>Cadastro de usuário</h1>
       </template>
       <template #inputs>
-        <InputComp placeholder="Selecionar" />
-        <InputComp placeholder="Filtrar" />
+        <InputComp placeholder="Selecionar">
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-user-secret" />
+          </template>
+        </InputComp>
+
+        <InputComp placeholder="Filtrar">
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-user-secret" />
+          </template>
+        </InputComp>
       </template>
   
       <template #content>
@@ -26,6 +35,10 @@
 import BoxComp from '@/components/BoxComp.vue';
 import InputComp from '@/components/InputComp.vue';
 import ButtonComp from '@/components/ButtonComp.vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faUserSecret);
 </script>
 
 <style scoped>

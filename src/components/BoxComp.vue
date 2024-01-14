@@ -55,4 +55,30 @@
     margin-top: 2rem;
     height: 60%;
 }
+
+@media only screen and (max-width: 1023px) {
+    .content {
+        margin-top: 1.3rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .box-container {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .title {
+        width: 100%;
+    }
+
+    .inputs {
+        width: 100%;
+    }
+}
+
 </style>

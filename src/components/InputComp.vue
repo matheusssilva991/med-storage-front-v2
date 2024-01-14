@@ -1,5 +1,8 @@
 <template>
-    <input :type="type" :value="value" :placeholder="placeholder">
+    <div class="input-container">
+        <slot name="icon"></slot>
+        <input :type="type" :value="value" :placeholder="placeholder">
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -44,17 +47,34 @@ input:focus::placeholder {
   color: var(--color-input-placeholder);
 }
 
-@media only screen and (max-width: 1023px) {
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+@media only screen and (max-width: 1024px) {
+    input {
+        font-size: 0.9em;
+        padding: 0.35em 0.35em;
+    }
+
+    .input-container {
+        gap: 0.3rem;
+        font-size: 0.7rem;
+    }
+}
+
+@media only screen and (max-width: 720px) {
     input {
         font-size: 0.8em;
         padding: 0.35em 0.35em;
     }
-}
 
-@media only screen and (max-width: 719px) {
-    input {
-        font-size: 0.5em;
-        padding: 0.3em 0.3em;
+    .input-container {
+        gap: 0.3rem;
+        font-size: 0.6rem;
     }
 }
 

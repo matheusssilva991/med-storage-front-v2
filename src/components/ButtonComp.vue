@@ -1,6 +1,6 @@
 <template>
     <button :class="type">
-        <font-awesome-icon :icon="icon" />
+        <slot name="icon"></slot>
         {{ text }}
     </button>
 </template>
@@ -26,15 +26,12 @@ const props = defineProps({
             ].includes(value)
         }
     },
-    icon: {
-        type: String,
-        default: ''
-    }
 });
 
 </script>
 
 <style scoped>
+
 button {
     width: 100%;
     display: flex;
@@ -45,17 +42,17 @@ button {
     cursor: pointer;
 }
 
-@media only screen and (max-width: 1023px) {
+@media only screen and (max-width: 1024px) {
     button {
-        font-size: 0.8em;
+        font-size: 0.6em;
         padding: 0.35em 0.35em;
     }
 }
 
-@media only screen and (max-width: 719px) {
+@media only screen and (max-width: 720px) {
     button {
         font-size: 0.5em;
-        padding: 0.3em 0.3em;
+        padding: 0.35em 0.35em;
     }
 }
 

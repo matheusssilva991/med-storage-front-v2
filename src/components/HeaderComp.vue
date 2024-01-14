@@ -4,9 +4,24 @@
         <div class="header-nav">
             <router-link to="/">Home</router-link>
             <router-link to="/register">Register</router-link>
-            <ButtonComp class="button-container" type="btn-primary" text="Button" icon="fa-solid fa-user-secret" @click="success"/>
-            <ButtonComp class="button-container" type="btn-secondary" text="Button" icon="fa-solid fa-user-secret" @click="info"/>
-            <ButtonComp class="button-container" type="btn-danger" text="Button" icon="fa-solid fa-user-secret" @click="error"/>
+            <ButtonComp class="button-container" type="btn-primary" text="Button"  @click="success">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-user-secret" />
+              </template>
+            </ButtonComp>
+
+            <ButtonComp class="button-container" type="btn-secondary" text="Button" @click="info">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-user-secret" />
+              </template>
+            </ButtonComp>
+
+            <ButtonComp class="button-container" type="btn-danger" text="Button" @click="error">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-user-secret" />
+              </template>
+            </ButtonComp>
+
             <InputComp class="input-container" placeholder="Logar"/>
         </div>
     </header>
