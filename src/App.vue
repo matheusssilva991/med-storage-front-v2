@@ -20,7 +20,7 @@ library.add(faUserSecret);
   <input class="input-base" type="text" placeholder="E-mail">
   <input class="input-base" type="text" placeholder="Password">
   -->
-  <RouterView /> 
+  <RouterView />
 </template>
 
 <style scoped>

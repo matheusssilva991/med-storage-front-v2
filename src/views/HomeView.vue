@@ -46,6 +46,7 @@ p {
 }
 
 .main-content {
+  padding: 0 5%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -58,10 +59,12 @@ p {
 .text-container {
   text-align: justify;
   margin-top: 5% !important;
-  width: 40%;
+  width: 45%;
 }
 
 .image-container {
+  display: flex;
+  justify-content: center;
   width: 45%;
   margin-top: 5%;
   overflow: hidden;
