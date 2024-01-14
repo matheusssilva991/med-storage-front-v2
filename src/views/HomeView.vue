@@ -31,12 +31,11 @@
 <style scoped>
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
 }
 
 p {
   font-weight: 600;
-  font-size: 1.2rem;
 }
 
 .main-container {
@@ -59,7 +58,7 @@ p {
 .text-container {
   text-align: justify;
   margin-top: 5% !important;
-  width: 45%;
+  width: 40%;
 }
 
 .image-container {
@@ -73,22 +72,25 @@ p {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 650px;
+  max-height: 500px;
   max-width: fit-content;
 }
 
 @media screen and (max-width: 700px) {
-    h1 {
-    font-size: 2.5rem;
+  h1 {
+    font-size: 2rem;
   }
 
   p {
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
   }
 
 	.main-content {
     flex-direction: column;
+  }
+
+  .text-container {
+    width: 80%;
   }
 
   .image-container {

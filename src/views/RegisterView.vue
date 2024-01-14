@@ -1,8 +1,48 @@
 <template>
-  <div class="register green">
-    <h1>This is an register page</h1>
+  <div class="container">
+    <BoxComp class="box">
+      <template #title>
+        <h1>Cadastro de usuário</h1>
+      </template>
+      <template #inputs>
+        <InputComp placeholder="Selecionar" />
+        <InputComp placeholder="Filtrar" />
+      </template>
+  
+      <template #content>
+        <div class="register-form">
+          <InputComp placeholder="Nome" />
+          <InputComp placeholder="E-mail" />
+          <InputComp placeholder="Senha" />
+          <ButtonComp type="btn-primary" text="Cadastrar"></ButtonComp>
+          <ButtonComp type="btn-secondary" text="Voltar"></ButtonComp>
+        </div>
+      </template>
+    </BoxComp>
   </div>
 </template>
 
-<style>
+<script setup lang="ts">
+import BoxComp from '@/components/BoxComp.vue';
+import InputComp from '@/components/InputComp.vue';
+import ButtonComp from '@/components/ButtonComp.vue';
+</script>
+
+<style scoped>
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box{
+  width: 60%;
+  margin-top: 20px;
+}
+
 </style>
+
+

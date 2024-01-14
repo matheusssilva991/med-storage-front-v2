@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import HeaderComp from './components/HeaderComp.vue'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { RouterView } from 'vue-router';
+import HeaderComp from './components/HeaderComp.vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faUserSecret);
 

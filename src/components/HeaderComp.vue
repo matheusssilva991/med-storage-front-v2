@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import ButtonComp from './ButtonComp.vue'
+import ButtonComp from '@/components/ButtonComp.vue';
 import { toast } from 'vue3-toastify';
-import InputComp from './InputComp.vue';
+import InputComp from '@/components/InputComp.vue';
 
 const success = () => {
   toast.success('Logado com sucesso.');
@@ -50,7 +50,7 @@ const error = () => {
 }
 
 .button-container {
-  width: 100px;
+  width: 80px;
 }
 
 .input-container {

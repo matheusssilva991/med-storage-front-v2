@@ -16,7 +16,7 @@ const props = defineProps({
         type: String,
         default: ''
     }
-})
+});
 
 </script>
 <style scoped>
@@ -25,8 +25,7 @@ input {
   border-radius: var(--border-radius);
   color: #8a8a8a;
   background-color: var(--color-background-input);
-  padding: 0.5rem 0.5rem;
-  font-size: 1rem;
+  padding: 0.4em 0.4em;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -47,15 +46,15 @@ input:focus::placeholder {
 
 @media only screen and (max-width: 1023px) {
     input {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.4rem;
+        font-size: 0.8em;
+        padding: 0.35em 0.35em;
     }
 }
 
 @media only screen and (max-width: 719px) {
     input {
-        font-size: 0.5rem;
-        padding: 0.35rem 0.35rem;
+        font-size: 0.5em;
+        padding: 0.3em 0.3em;
     }
 }
 

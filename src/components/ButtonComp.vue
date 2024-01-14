@@ -30,7 +30,7 @@ const props = defineProps({
         type: String,
         default: ''
     }
-})
+});
 
 </script>
 
@@ -39,25 +39,23 @@ button {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     border-radius: var(--border-radius);
-    padding: 0.5rem 0.5rem;
+    padding: 0.4em 0.4em;
     cursor: pointer;
-    font-size: 1rem;
-    gap: 0.5rem;
 }
 
 @media only screen and (max-width: 1023px) {
     button {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.4rem;
+        font-size: 0.8em;
+        padding: 0.35em 0.35em;
     }
 }
 
 @media only screen and (max-width: 719px) {
     button {
-        font-size: 0.5rem;
-        padding: 0.35rem 0.35rem;
+        font-size: 0.5em;
+        padding: 0.3em 0.3em;
     }
 }
 
