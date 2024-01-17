@@ -129,6 +129,12 @@ const goHome = () => {
   width: 5rem;
 }
 
+@media screen and (max-width: 720px) {
+  .input-field {
+    width: 100%;
+  }
+}
+
 </style>
 
 
