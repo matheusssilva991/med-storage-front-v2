@@ -5,38 +5,38 @@
       <template #content>
         <div class="register-form">
           <div class="input-field">
-            Nome
-            <InputComp placeholder="Informe seu nome" />
+            <label for="name">Name</label>
+            <InputComp placeholder="Informe seu nome" id="name"/>
           </div>
 
           <div class="input-field">
-            E-mail
-            <InputComp placeholder="Informe seu e-mail" type="email"/>
+            <label for="E-mail">E-mail</label>
+            <InputComp placeholder="Informe seu e-mail" type="email" id="email"/>
           </div>
 
           <div class="input-field">
-            Senha
-            <InputComp placeholder="Informe sua senha" type="password" :isRequired="true"/>
+            <label for="password">Senha</label>
+            <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"/>
           </div>
 
           <div class="input-field">
-            Instituição
-            <InputComp placeholder="Informe sua instituição"/>
+            <label for="institution">Instituição</label>
+            <InputComp placeholder="Informe sua instituição" id="institution"/>
           </div>
 
           <div class="input-field">
-            País
-            <InputComp placeholder="Informe seu país"/>
+            <label for="country">País</label>
+            <InputComp placeholder="Informe seu país" id="country"/>
           </div>
 
           <div class="input-field">
-            Cidade
-            <InputComp placeholder="Informe sua Cidade"/>
+            <label for="city">Cidade</label>
+            <InputComp placeholder="Informe sua Cidade" id="city"/>
           </div>
 
           <div class="input-field">
-            Lattes
-            <InputComp placeholder="Informe o link do seu currículo Lattes"/>
+            <label for="lattes">Currículo Lattes</label>
+            <InputComp placeholder="Informe o link do Lattes" id="lattes"/>
           </div>
 
           <div class="button-field">

@@ -57,7 +57,13 @@ input:focus {
 }
 
 input:focus::placeholder {
-  color: var(--color-input-placeholder);
+  color: var(--color-placeholder-input);
+}
+
+input:disabled {
+  background-color: var(--color-background-input-disabled);
+  color: var(--color-text-input-disabled);
+  cursor: text;
 }
 
 .input-container {

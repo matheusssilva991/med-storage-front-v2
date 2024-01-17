@@ -29,7 +29,7 @@ const props = defineProps({
 .box-container {
     width: 100%;
     height: 100%;
-    background-color: var(--color-box-background);
+    background-color: var(--color-background-box);
     border-radius: var(--border-radius);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     display: flex;
