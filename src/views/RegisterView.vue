@@ -3,15 +3,15 @@
     <BoxComp class="box" title="Cadastro de usuário">
   
       <template #content>
-        <div class="register-form">
+        <form class="register-form">
           <div class="input-field">
             <label for="name">Name</label>
-            <InputComp placeholder="Informe seu nome" id="name"/>
+            <InputComp placeholder="Informe seu nome" id="name" :isRequired="true"/>
           </div>
 
           <div class="input-field">
             <label for="E-mail">E-mail</label>
-            <InputComp placeholder="Informe seu e-mail" type="email" id="email"/>
+            <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"/>
           </div>
 
           <div class="input-field">
@@ -41,10 +41,10 @@
 
           <div class="button-field">
             <ConfirmDialog></ConfirmDialog>
-            <ButtonComp button-class="btn-secondary" text="Voltar" @click="goHome"></ButtonComp>
-            <ButtonComp button-class="btn-primary" text="Cadastrar"></ButtonComp>
+            <ButtonComp btn-class="btn-secondary" text="Voltar" @click="goHome"></ButtonComp>
+            <ButtonComp btn-class="btn-primary" text="Cadastrar" btn-type="submit"></ButtonComp>
           </div>
-        </div>
+        </form>
       </template>
     </BoxComp>
   </div>

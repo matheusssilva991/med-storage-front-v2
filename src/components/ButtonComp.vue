@@ -1,18 +1,19 @@
 <template>
-    <button :class="buttonClass">
+    <button :class="btnClass" :type="btnType">
         <slot name="icon"></slot>
         {{ text }}
     </button>
 </template>
 
 <script setup lang="ts">
+import type { PropType, ButtonHTMLAttributes } from 'vue';
 
 const props = defineProps({
     text: {
         type: String,
         required: true
     },
-    buttonClass: {
+    btnClass: {
         type: String,
         default: 'btn-primary',
         validator: (value: string) => {
@@ -26,9 +27,17 @@ const props = defineProps({
             ].includes(value)
         }
     },
-    type: {
-        type: String,
-        default: 'button'
+    btnType: {
+        type: String as PropType<ButtonHTMLAttributes['type']>,
+        default: 'button',
+        validator: (value: string) => {
+            return [
+                'button',
+                'submit',
+                'reset',
+                undefined
+            ].includes(value)
+        }
     }
 });
 
