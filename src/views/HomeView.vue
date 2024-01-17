@@ -34,10 +34,6 @@ h1 {
   font-size: 2.5rem;
 }
 
-p {
-  font-weight: 600;
-}
-
 .main-container {
   display: flex;
   flex-direction: row;

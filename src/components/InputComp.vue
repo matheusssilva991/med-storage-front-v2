@@ -1,7 +1,8 @@
 <template>
     <div class="input-container">
         <slot name="icon"></slot>
-        <input :type="type" :value="value" :placeholder="placeholder">
+        <input :type="type" :value="value" :placeholder="placeholder" :required="isRequired" 
+        :disabled="isDisabled">
     </div>
 </template>
 
@@ -18,6 +19,18 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: ''
+    },
+    isRequired: {
+        type: Boolean,
+        default: false
+    },
+    value: {
+        type: String,
+        default: ''
+    },
+    isDisabled: {
+        type: Boolean,
+        default: false
     }
 });
 

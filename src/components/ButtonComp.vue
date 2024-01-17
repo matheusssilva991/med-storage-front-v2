@@ -1,5 +1,5 @@
 <template>
-    <button :class="type">
+    <button :class="buttonClass">
         <slot name="icon"></slot>
         {{ text }}
     </button>
@@ -12,7 +12,7 @@ const props = defineProps({
         type: String,
         required: true
     },
-    type: {
+    buttonClass: {
         type: String,
         default: 'btn-primary',
         validator: (value: string) => {
@@ -26,6 +26,10 @@ const props = defineProps({
             ].includes(value)
         }
     },
+    type: {
+        type: String,
+        default: 'button'
+    }
 });
 
 </script>

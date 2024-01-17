@@ -16,6 +16,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: Helvetica;
 }
 
 h1 {
@@ -23,9 +24,4 @@ h1 {
   margin: 0;
   font-size: 30px;
   color: var(--color-heading);
-  font-family: Montserrat bold;
-}
-
-p {
-  font-family: Montserrat light;
 }

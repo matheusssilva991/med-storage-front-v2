@@ -4,19 +4,19 @@
         <div class="header-nav">
             <router-link to="/">Home</router-link>
             <router-link to="/register">Register</router-link>
-            <ButtonComp class="button-container" type="btn-primary" text="Button"  @click="success">
+            <ButtonComp class="button-container" button-class="btn-primary" text="Button"  @click="success">
               <template #icon>
                 <font-awesome-icon icon="fa-solid fa-user-secret" />
               </template>
             </ButtonComp>
 
-            <ButtonComp class="button-container" type="btn-secondary" text="Button" @click="info">
+            <ButtonComp class="button-container" button-class="btn-secondary" text="Button" @click="info">
               <template #icon>
                 <font-awesome-icon icon="fa-solid fa-user-secret" />
               </template>
             </ButtonComp>
 
-            <ButtonComp class="button-container" type="btn-danger" text="Button" @click="error">
+            <ButtonComp class="button-container" button-class="btn-danger" text="Button" @click="error">
               <template #icon>
                 <font-awesome-icon icon="fa-solid fa-user-secret" />
               </template>
