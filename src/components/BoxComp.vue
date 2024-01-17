@@ -1,9 +1,9 @@
 <template>
     <div class="box-container">
         <div class="header">
-            <div class="title">
-                <slot name="title"></slot>
-            </div>
+            <h1 class="title">
+                {{ props.title }}
+            </h1>
             <div class="inputs">
                 <slot name="inputs"></slot>
             </div>
@@ -16,6 +16,13 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps({
+    title: {
+        type: String,
+        required: true
+    }
+})
+
 </script>
 
 <style scoped>
@@ -56,15 +63,19 @@
     height: 60%;
 }
 
-@media only screen and (max-width: 1023px) {
+@media only screen and (max-width: 1024px) {
     .content {
         margin-top: 1.3rem;
     }
+
+    .title {
+        font-size: 1.3rem;
+    }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 780px) {
     .box-container {
-        padding: 1rem;
+        padding: 1.5rem;
     }
 
     .header {

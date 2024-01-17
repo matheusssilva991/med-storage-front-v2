@@ -41,7 +41,7 @@ input {
   border-radius: var(--border-radius);
   color: #8a8a8a;
   background-color: var(--color-background-input);
-  padding: 0.4em 0.4em;
+  padding: 0.5em 0.8em;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -70,24 +70,12 @@ input:focus::placeholder {
 @media only screen and (max-width: 1024px) {
     input {
         font-size: 0.9em;
-        padding: 0.35em 0.35em;
+        padding: 0.4em 0.8em;
     }
 
     .input-container {
         gap: 0.3rem;
         font-size: 0.7rem;
-    }
-}
-
-@media only screen and (max-width: 720px) {
-    input {
-        font-size: 0.8em;
-        padding: 0.35em 0.35em;
-    }
-
-    .input-container {
-        gap: 0.3rem;
-        font-size: 0.6rem;
     }
 }
 

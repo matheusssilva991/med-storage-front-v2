@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <BoxComp class="box">
-      <template #title>
-        <h1>Cadastro de usuário</h1>
-      </template>
+    <BoxComp class="box" title="Cadastro de usuário">
   
       <template #content>
         <div class="register-form">
@@ -115,10 +112,11 @@ const goHome = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .button-field {
+  margin-top: 1rem;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -129,9 +127,32 @@ const goHome = () => {
   width: 5rem;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 1024px) {
+  .container-title {
+    font-size: 1.3rem;
+  }
+
+  .input-field {
+    font-size: 0.8rem;
+  }
+
+  .button-field button {
+    width: 4rem;
+  }
+}
+
+@media screen and (max-width: 780px) {
   .input-field {
     width: 100%;
+    gap: 0.2rem;
+  }
+
+  .button-field {
+    justify-content: center;
+  }
+
+  .button-field button {
+    width: 3.5rem;
   }
 }
 
