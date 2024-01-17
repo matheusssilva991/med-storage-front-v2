@@ -73,10 +73,10 @@ const goHome = () => {
     confirm.require({
         message: 'Você tem certeza que deseja voltar?',
         header: 'Retornar',
-        icon: 'icon-delete',
         rejectLabel: 'Cancelar',
         acceptLabel: 'Retornar',
-        acceptClass: 'p-button-success',
+        acceptClass: 'p-button-success p-button-sm',
+        rejectClass: 'p-button-danger p-button-sm',
         accept: handleGoHome,
     });
 };

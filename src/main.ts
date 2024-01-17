@@ -19,9 +19,8 @@ const app = createApp(App)
         position: 'top-right',
     } as ToastContainerOptions
 )
-app.use(PrimeVue, {
-    unstyled: true,     
-});
+app.use(PrimeVue,
+);
 
 app.use(ConfirmationService);
 
