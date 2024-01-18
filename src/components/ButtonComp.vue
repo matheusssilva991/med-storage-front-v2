@@ -51,7 +51,7 @@ button {
     align-items: center;
     justify-content: space-around;
     border-radius: var(--border-radius);
-    padding: 0.5em 0.8em;
+    padding: 0.3em 0.8em;
     cursor: pointer;
 }
 
@@ -62,7 +62,7 @@ button:active {
 @media only screen and (max-width: 1024px) {
     button {
         font-size: 0.6em;
-        padding: 0.4em 0.7em;
+        padding: 0.3em 0.7em;
     }
 }
 

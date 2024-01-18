@@ -1,42 +1,49 @@
 <template>
   <div class="container">
-    <BoxComp class="box" title="Cadastro de usuário">
+    <BoxComp class="box" title="Solicitar cadastro">
   
       <template #content>
-        <form class="register-form">
+        <form class="register-form" @submit.prevent="register">
           <div class="input-field">
-            <label for="name">Name</label>
-            <InputComp placeholder="Informe seu nome" id="name" :isRequired="true"/>
+            <label for="name">Name *</label>
+            <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" 
+            @change-value-from-child="changeValue" name="name" :value="name"/>
           </div>
 
           <div class="input-field">
-            <label for="E-mail">E-mail</label>
-            <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"/>
+            <label for="E-mail">E-mail *</label>
+            <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"
+            @change-value-from-child="changeValue" name="email" :value="email"/>
           </div>
 
           <div class="input-field">
-            <label for="password">Senha</label>
-            <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"/>
+            <label for="password">Senha *</label>
+            <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"
+            @change-value-from-child="changeValue" name="password" :value="password"/>
           </div>
 
           <div class="input-field">
-            <label for="institution">Instituição</label>
-            <InputComp placeholder="Informe sua instituição" id="institution"/>
+            <label for="institution">Instituição *</label>
+            <InputComp placeholder="Informe sua instituição" id="institution" :isRequired="true"
+            @change-value-from-child="changeValue" name="institution" :value="institution"/>
           </div>
 
           <div class="input-field">
-            <label for="country">País</label>
-            <InputComp placeholder="Informe seu país" id="country"/>
+            <label for="country">País *</label>
+            <InputComp placeholder="Informe seu país" id="country" :isRequired="true"
+            @change-value-from-child="changeValue" name="country" :value="country"/>
           </div>
 
           <div class="input-field">
             <label for="city">Cidade</label>
-            <InputComp placeholder="Informe sua Cidade" id="city"/>
+            <InputComp placeholder="Informe sua Cidade" id="city"
+            @change-value-from-child="changeValue" name="city" :value="city"/>
           </div>
 
           <div class="input-field">
             <label for="lattes">Currículo Lattes</label>
-            <InputComp placeholder="Informe o link do Lattes" id="lattes"/>
+            <InputComp placeholder="Informe o link do Lattes" id="lattes"
+            @change-value-from-child="changeValue" name="lattes" :value="lattes"/>
           </div>
 
           <div class="button-field">
@@ -54,32 +61,83 @@
 import BoxComp from '@/components/BoxComp.vue';
 import ButtonComp from '@/components/ButtonComp.vue';
 import InputComp from '@/components/InputComp.vue';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
 
-const router = useRouter();
-const confirm = useConfirm();
+// Variáveis
+const router = useRouter(); // Para navegação
+const confirm = useConfirm(); // Para usar o confirmDialog do primeVue
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const institution = ref('');
+const country = ref('');
+const city = ref('');
+const lattes = ref('');
 
-library.add(faUserSecret);
-
-function handleGoHome() {
-  router.push({ name: 'home' });
-}
-
+// Funções
 const goHome = () => {
     confirm.require({
         message: 'Você tem certeza que deseja voltar?',
         header: 'Retornar',
         rejectLabel: 'Cancelar',
         acceptLabel: 'Retornar',
-        acceptClass: 'p-button-success p-button-sm',
+        acceptClass: 'p-button-secondary p-button-sm',
         rejectClass: 'p-button-danger p-button-sm',
-        accept: handleGoHome,
+        accept: () => router.push({ name: 'home' }),
     });
 };
+
+function changeValue(varName: string, value: string) {
+  if (varName === 'name')
+    name.value = value;
+  else if (varName === 'email')
+    email.value = value;
+  else if (varName === 'password')
+    password.value = value;
+  else if (varName === 'institution')
+    institution.value = value;
+  else if (varName === 'country')
+    country.value = value;
+  else if (varName === 'city')
+    city.value = value;
+  else if (varName === 'lattes')
+    lattes.value = value;
+}
+
+async function register(){
+  try {
+    await axios.post('http://localhost:3000/api/solicitation', {
+      type: 'newUser',
+      data: {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        institution: institution.value,
+        country: country.value,
+        city: city.value,
+        lattes: lattes.value
+      }
+    });
+    toast.success('Solicitação enviada com sucesso!.');
+    router.push({ name: 'home' });
+  }
+  catch (error: any) {
+    const messages = error?.response?.data?.message;
+    
+    if (typeof messages === 'object') {
+      messages.forEach((message: string) => {
+        toast.error(message);
+      });
+    } else {
+      toast.error(messages);
+    }
+  }
+}
 
 </script>
 

@@ -15,7 +15,7 @@ const app = createApp(App)
 .use(
     Vue3Toasity,
     {
-        autoClose: 2000,
+        autoClose: 4000,
         position: 'top-right',
     } as ToastContainerOptions
 )
