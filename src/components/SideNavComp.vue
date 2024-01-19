@@ -49,31 +49,31 @@ const items = ref([
     {
         icon: 'fa-solid fa-database',
         text: 'Banco de imagens',
-        route: '/teste',
-        isActive: currentRoute.value == '/teste'
+        route: '/databases',
+        isActive: currentRoute.value == '/databases'
     },
     {
         icon: 'fa-solid fa-images',
         text: 'Imagens',
-        route: '/teste',
+        route: '/images',
         isActive: currentRoute.value == '/images'
     },
     {
         icon: 'fa-solid fa-user-group',
         text: 'Usuários',
-        route: '/teste',
+        route: '/users',
         isActive: currentRoute.value == '/users'
     },
     {
         icon: 'fa-solid fa-file-image',
         text: 'Tipo de imagens',
-        route: '/teste',
+        route: '/image-types',
         isActive: currentRoute.value == '/image-types'
     },
     {
         icon: 'fa-solid fa-envelopes-bulk',
         text: 'Solicitações',
-        route: '/teste',
+        route: '/solicitations',
         isActive: currentRoute.value == '/solicitations'
     }
 ]);
@@ -81,8 +81,10 @@ const items = ref([
 </script>
 
 <style scoped>
+
 .navside-container {
     width: 100%;
+    min-width: fit-content;
     height: 100%;
     background-color: var(--color-background-navside);
     border-radius: var(--border-radius);
@@ -93,11 +95,12 @@ const items = ref([
     gap: 0.5rem;
     padding: 1.3rem;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    font-size: 0.9rem;
 }
 
 .navside-item {
     width: 100%;
-    height: 2rem;
+    height: fit-content;
     display: flex;
     border: 1px solid var(--color-border-navside);
     border-top: none;
@@ -108,7 +111,7 @@ const items = ref([
     color: var(--color-text);
     font-size: 1em;
     gap: 0.7rem;
-    padding-left: 0.7rem;
+    padding: 0.5rem 0.7rem 0.5rem 0.7rem;
     font-weight: 600;
 }
 
@@ -128,6 +131,27 @@ const items = ref([
     color: var(--color-text-navside-hover);
     transform: scale(0.97);
     cursor: default;
+}
+
+@media screen and (max-width: 1024px) {
+    .navside-container {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navside-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        height: fit-content;
+        font-size: 0.7rem;
+    }
+
+    .navside-item {
+        flex-wrap: wrap;
+        width: fit-content;
+    }
 }
 
 </style>

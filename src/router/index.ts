@@ -18,9 +18,9 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue')
     },
     {
-      path: '/teste',
-      name: 'teste',
-      component: () => import('../views/TesteView.vue')
+      path: '/databases',
+      name: 'databases',
+      component: () => import('../views/DatabaseListView.vue')
     }
   ]
 })

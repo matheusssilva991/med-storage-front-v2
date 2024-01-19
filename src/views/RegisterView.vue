@@ -154,7 +154,7 @@ async function register(){
 
 .box{
   width: 60%;
-  margin-top: 20px;
+  margin-top: 2.5rem;
 }
 
 .register-form {
