@@ -3,6 +3,9 @@
         <div class="header">
             <h1 class="title">
                 {{ props.title }}
+                <div class="title-button">
+                    <slot name="button"></slot>
+                </div>
             </h1>
             <div class="inputs">
                 <slot name="inputs"></slot>
@@ -36,7 +39,7 @@ const props = defineProps({
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem 1.3rem;
 }
 
 .header {
@@ -48,6 +51,15 @@ const props = defineProps({
 
 .title {
     width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.title-button {
+    margin-top: 0.5rem;
+    width: 15%;
 }
 
 .inputs {
@@ -71,6 +83,11 @@ const props = defineProps({
     .title {
         font-size: 1.3rem;
     }
+
+    .title-button {
+       font-size: 0.9rem;
+       margin-top: 0.4rem;
+    }
 }
 
 @media only screen and (max-width: 780px) {
@@ -85,6 +102,10 @@ const props = defineProps({
 
     .title {
         width: 100%;
+    }
+
+    .title-button {
+       width: 8%;
     }
 
     .inputs {

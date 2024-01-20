@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import SideNavComp from '@/components/SideNavComp.vue';
+import SideNavComp from '@/components/NavSideComp.vue';
 
 </script>
 

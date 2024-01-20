@@ -53,6 +53,8 @@ button {
     border-radius: var(--border-radius);
     padding: 0.3em 0.8em;
     cursor: pointer;
+    min-width: fit-content;
+    gap: 0.3rem;
 }
 
 button:active {

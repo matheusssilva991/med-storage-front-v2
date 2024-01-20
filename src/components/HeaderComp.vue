@@ -4,6 +4,7 @@
         <div class="header-nav">
             <router-link to="/">Home</router-link>
             <router-link to="/register">Register</router-link>
+            <router-link to="/databases">Databases</router-link>
             <ButtonComp class="button-container" btn-class="btn-primary" text="Button"  @click="success">
               <template #icon>
                 <font-awesome-icon icon="fa-solid fa-user-secret" />
