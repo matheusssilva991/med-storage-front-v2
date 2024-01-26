@@ -10,6 +10,8 @@
                     </ButtonComp>
                 </template>
                 <h1>Teste</h1>
+                <template #content>
+                </template>
             </BoxComp>
         </template>
     </LoggedTemplateComp>

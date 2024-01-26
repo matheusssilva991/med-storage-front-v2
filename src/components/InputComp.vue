@@ -51,7 +51,7 @@ function handleEvent() {
 input {
   border: 1px solid var(--color-border-input);
   border-radius: var(--border-radius);
-  color: #8a8a8a;
+  color: var(--color-text-input);
   background-color: var(--color-background-input);
   padding: 0.3em 0.8em;
   display: flex;

@@ -3,48 +3,79 @@
     <BoxComp class="box" title="Solicitar cadastro">
   
       <template #content>
-        <form class="register-form" @submit.prevent="register">
-          <div class="input-field">
-            <label for="name">Name *</label>
-            <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" 
-            @change-value-from-child="changeValue" name="name" :value="name"/>
-          </div>
+        <form class="register-form" @submit.prevent="onSubmit">
+            <div class="input-field">
+              <label for="name">Name *</label>
+              <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" 
+              @change-value-from-child="changeValue" name="name" :value="form.name"/>
+              <ul class="input-field-error" v-if="errors?.name">
+                <li v-for="error in errors?.name?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
-          <div class="input-field">
-            <label for="E-mail">E-mail *</label>
-            <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"
-            @change-value-from-child="changeValue" name="email" :value="email"/>
-          </div>
+            <div class="input-field">
+              <label for="E-mail">E-mail *</label>
+              <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"
+              @change-value-from-child="changeValue" name="email" :value="form.email"/>
+              <ul class="input-field-error" v-if="errors?.email">
+                <li v-for="error in errors?.email?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
-          <div class="input-field">
-            <label for="password">Senha *</label>
-            <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"
-            @change-value-from-child="changeValue" name="password" :value="password"/>
-          </div>
+            <div class="input-field">
+              <label for="password">Senha *</label>
+              <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"
+              @change-value-from-child="changeValue" name="password" :value="form.password"/>
+              <ul class="input-field-error" v-if="errors?.password">
+                <li v-for="error in errors?.password?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
-          <div class="input-field">
-            <label for="institution">Instituição *</label>
-            <InputComp placeholder="Informe sua instituição" id="institution" :isRequired="true"
-            @change-value-from-child="changeValue" name="institution" :value="institution"/>
-          </div>
+            <div class="input-field">
+              <label for="confirmPassword">Confirmar senha *</label>
+              <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="confirmPassword"
+              @change-value-from-child="changeValue" name="confirmPassword" :value="form.confirmPassword"/>
+              <ul class="input-field-error" v-if="errors?.confirmPassword">
+                <li v-for="error in errors?.confirmPassword?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
-          <div class="input-field">
-            <label for="country">País *</label>
-            <InputComp placeholder="Informe seu país" id="country" :isRequired="true"
-            @change-value-from-child="changeValue" name="country" :value="country"/>
-          </div>
+            <div class="input-field">
+              <label for="institution">Instituição *</label>
+              <InputComp placeholder="Informe sua instituição" id="institution" :isRequired="true"
+              @change-value-from-child="changeValue" name="institution" :value="form.institution"/>
+              <ul class="input-field-error" v-if="errors?.institution">
+                <li v-for="error in errors?.institution?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
-          <div class="input-field">
-            <label for="city">Cidade</label>
-            <InputComp placeholder="Informe sua Cidade" id="city"
-            @change-value-from-child="changeValue" name="city" :value="city"/>
-          </div>
+            <div class="input-field">
+              <label for="country">País *</label>
+              <InputComp placeholder="Informe seu país" id="country" :isRequired="true"
+              @change-value-from-child="changeValue" name="country" :value="form.country"/>
+              <ul class="input-field-error" v-if="errors?.country">
+                <li v-for="error in errors?.country?._errors"> {{ error }}</li>
+              </ul>
+            </div>
+            
+            <div class="input-field">
+              <label for="city">Cidade</label>
+              <InputComp placeholder="Informe sua Cidade" id="city"
+              @change-value-from-child="changeValue" name="city" :value="form.city"/>
+              <ul class="input-field-error" v-if="errors?.city">
+                <li v-for="error in errors?.city?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
-          <div class="input-field">
-            <label for="lattes">Currículo Lattes</label>
-            <InputComp placeholder="Informe o link do Lattes" id="lattes"
-            @change-value-from-child="changeValue" name="lattes" :value="lattes"/>
-          </div>
+            
+            <div class="input-field">
+              <label for="lattes">Currículo Lattes</label>
+              <InputComp placeholder="Informe o link do Lattes" id="lattes"
+              @change-value-from-child="changeValue" name="lattes" :value="form.lattes"/>
+              <ul class="input-field-error" v-if="errors?.lattes">
+                <li v-for="error in errors?.lattes?._errors"> {{ error }}</li>
+              </ul>
+            </div>
 
           <div class="button-field">
             <ConfirmDialog></ConfirmDialog>
@@ -64,20 +95,54 @@ import InputComp from '@/components/InputComp.vue';
 import axios from 'axios';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from "primevue/useconfirm";
-import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
+import * as z from 'zod';
 
 // Variáveis
 const router = useRouter(); // Para navegação
 const confirm = useConfirm(); // Para usar o confirmDialog do primeVue
-const name = ref('');
-const email = ref('');
-const password = ref('');
-const institution = ref('');
-const country = ref('');
-const city = ref('');
-const lattes = ref('');
+const form = ref({
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  institution: '',
+  country: '',
+  city: '',
+  lattes: ''
+});
+
+const formSchema = z.object({
+  name: z.string()
+    .min(1, { message: 'O campo nome é requerido.' }),
+  email: z.string()
+    .email({ message: 'O e-mail informado é inválido.' })
+    .min(1, { message: 'O campo e-mail é requerido.' }),
+  password: z.string()
+    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres.' })
+    .regex(/[a-z]/, { message: 'A senha deve ter pelo menos uma letra minúscula.' })
+    .regex(/[A-Z]/, { message: 'A senha deve ter pelo menos uma letra maiúscula.' })
+    .regex(/[0-9]/, { message: 'A senha deve ter pelo menos um número.' })
+    .regex(/[^a-zA-Z0-9]/, { message: 'A senha deve ter pelo menos um caractere especial.' }),
+  confirmPassword: z.string(),
+  institution: z.string()
+    .min(1, { message: 'O campo instituição é requerido.' }),
+  country: z.string()
+    .min(1, { message: 'O campo país é requerido.' }),
+  city: z.string()
+    .optional(),
+  lattes: z.string()
+    .optional()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'As senhas não coincidem.',
+  path: ['confirmPassword'],
+});
+
+
+type formSchema = z.infer<typeof formSchema>;
+const errors = ref<z.ZodFormattedError<formSchema> | null>(null);
 
 // Funções
 const goHome = () => {
@@ -93,49 +158,52 @@ const goHome = () => {
 };
 
 function changeValue(varName: string, value: string) {
-  if (varName === 'name')
-    name.value = value;
-  else if (varName === 'email')
-    email.value = value;
-  else if (varName === 'password')
-    password.value = value;
-  else if (varName === 'institution')
-    institution.value = value;
-  else if (varName === 'country')
-    country.value = value;
-  else if (varName === 'city')
-    city.value = value;
-  else if (varName === 'lattes')
-    lattes.value = value;
+  if (varName === 'name') form.value.name = value;
+  if (varName === 'email') form.value.email = value;
+  if (varName === 'password') form.value.password = value;
+  if (varName === 'confirmPassword') form.value.confirmPassword = value;
+  if (varName === 'institution') form.value.institution = value;
+  if (varName === 'country') form.value.country = value;
+  if (varName === 'city') form.value.city = value;
+  if (varName === 'lattes') form.value.lattes = value;
+}
+
+async function onSubmit() {
+  const valid = formSchema.safeParse(form.value);
+  if (!valid.success) {
+    errors.value = valid.error.format();
+  } else {
+    errors.value = null;
+    await register();
+  }
 }
 
 async function register(){
   try {
-    await axios.post('http://localhost:3000/api/solicitation', {
-      type: 'newUser',
-      data: {
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        institution: institution.value,
-        country: country.value,
-        city: city.value,
-        lattes: lattes.value
-      }
-    });
-    toast.success('Solicitação enviada com sucesso!.');
-    router.push({ name: 'home' });
-  }
-  catch (error: any) {
-    const messages = error?.response?.data?.message;
-    
-    if (typeof messages === 'object') {
-      messages.forEach((message: string) => {
-        toast.error(message);
+      await axios.post('http://localhost:3000/api/solicitation', {
+        type: 'newUser',
+        data: {
+          name: form.value.name,
+          email: form.value.email,
+          password: form.value.password,
+          institution: form.value.institution,
+          country: form.value.country,
+          city: form.value.city,
+          lattes: form.value.lattes
+        }
       });
-    } else {
-      toast.error(messages);
-    }
+      toast.success('Solicitação enviada com sucesso!.');
+      router.push({ name: 'home' });
+  } catch (error: any) {
+      const messages = error?.response?.data?.message;
+      
+      if (typeof messages === 'object') {
+        messages.forEach((message: string) => {
+          toast.error(message);
+        });
+      } else {
+        toast.error(messages);
+      }
   }
 }
 
@@ -162,15 +230,24 @@ async function register(){
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
 }
 
 .input-field{
-  margin-bottom: 20px;
   width: 48%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.3rem;
+}
+
+.input-field-error{
+  font-size: 0.8rem;
+  color: var(--color-text-input);
+  margin: 0;
+  padding-left: 1.2rem;
+  padding-top: 0.2rem;
 }
 
 .button-field {
@@ -194,12 +271,20 @@ async function register(){
     font-size: 0.8rem;
   }
 
+  .input-field-error {
+    font-size: 0.7rem;
+  }
+
   .button-field button {
     width: 4rem;
   }
 }
 
 @media screen and (max-width: 780px) {
+  .input-container {
+    flex-direction: column;
+  }
+
   .input-field {
     width: 100%;
     gap: 0.2rem;
