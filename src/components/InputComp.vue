@@ -2,15 +2,11 @@
     <div class="input-container">
         <slot name="icon"></slot>
         <input :type="type" v-model="inputValue" :placeholder="placeholder" :required="isRequired" 
-        :disabled="isDisabled" @input="handleEvent()">
+        :disabled="isDisabled">
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
-// Emitir eventos
-const emit = defineEmits(['changeValueFromChild']);
 
 const props = defineProps({
     type: {
@@ -39,11 +35,9 @@ const props = defineProps({
     }
 });
 
-const inputValue = ref(props.value);
+const inputValue = defineModel();
+inputValue.value = props.value;
 
-function handleEvent() {
-    emit('changeValueFromChild', props.name, inputValue.value);
-}
 
 </script>
 

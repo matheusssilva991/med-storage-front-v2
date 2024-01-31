@@ -34,11 +34,17 @@ import { toast } from 'vue3-toastify';
 import InputComp from '@/components/InputComp.vue';
 
 const success = () => {
-  toast.success('Logado com sucesso.');
+  toast.success('Logado com sucesso.', {
+    toastStyle: {
+      fontSize: '0.9rem',
+    },
+    toastId: 'success',
+    theme: 'colored'
+  });
 }
 
 const info = () => {
-  toast.info('Nada importante');
+  toast.warning('Nada importante');
 }
 
 const error = () => {

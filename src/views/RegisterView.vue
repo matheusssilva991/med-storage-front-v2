@@ -7,7 +7,7 @@
             <div class="input-field">
               <label for="name">Name *</label>
               <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" 
-              @change-value-from-child="changeValue" name="name" :value="form.name"/>
+              v-model="name" name="name" :value="name"/>
               <ul class="input-field-error" v-if="errors?.name">
                 <li v-for="error in errors?.name?._errors"> {{ error }}</li>
               </ul>
@@ -16,7 +16,7 @@
             <div class="input-field">
               <label for="E-mail">E-mail *</label>
               <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"
-              @change-value-from-child="changeValue" name="email" :value="form.email"/>
+              v-model="email" name="email" :value="email"/>
               <ul class="input-field-error" v-if="errors?.email">
                 <li v-for="error in errors?.email?._errors"> {{ error }}</li>
               </ul>
@@ -25,7 +25,7 @@
             <div class="input-field">
               <label for="password">Senha *</label>
               <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"
-              @change-value-from-child="changeValue" name="password" :value="form.password"/>
+              v-model="password" name="password" :value="password"/>
               <ul class="input-field-error" v-if="errors?.password">
                 <li v-for="error in errors?.password?._errors"> {{ error }}</li>
               </ul>
@@ -34,7 +34,7 @@
             <div class="input-field">
               <label for="confirmPassword">Confirmar senha *</label>
               <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="confirmPassword"
-              @change-value-from-child="changeValue" name="confirmPassword" :value="form.confirmPassword"/>
+              v-model="confirmPassword" name="confirmPassword" :value="confirmPassword"/>
               <ul class="input-field-error" v-if="errors?.confirmPassword">
                 <li v-for="error in errors?.confirmPassword?._errors"> {{ error }}</li>
               </ul>
@@ -43,7 +43,7 @@
             <div class="input-field">
               <label for="institution">Instituição *</label>
               <InputComp placeholder="Informe sua instituição" id="institution" :isRequired="true"
-              @change-value-from-child="changeValue" name="institution" :value="form.institution"/>
+              v-model="institution" name="institution" :value="institution"/>
               <ul class="input-field-error" v-if="errors?.institution">
                 <li v-for="error in errors?.institution?._errors"> {{ error }}</li>
               </ul>
@@ -52,7 +52,7 @@
             <div class="input-field">
               <label for="country">País *</label>
               <InputComp placeholder="Informe seu país" id="country" :isRequired="true"
-              @change-value-from-child="changeValue" name="country" :value="form.country"/>
+              v-model="country" name="country" :value="country"/>
               <ul class="input-field-error" v-if="errors?.country">
                 <li v-for="error in errors?.country?._errors"> {{ error }}</li>
               </ul>
@@ -61,7 +61,7 @@
             <div class="input-field">
               <label for="city">Cidade</label>
               <InputComp placeholder="Informe sua Cidade" id="city"
-              @change-value-from-child="changeValue" name="city" :value="form.city"/>
+              v-model="city" name="city" :value="city"/>
               <ul class="input-field-error" v-if="errors?.city">
                 <li v-for="error in errors?.city?._errors"> {{ error }}</li>
               </ul>
@@ -71,7 +71,7 @@
             <div class="input-field">
               <label for="lattes">Currículo Lattes</label>
               <InputComp placeholder="Informe o link do Lattes" id="lattes"
-              @change-value-from-child="changeValue" name="lattes" :value="form.lattes"/>
+              v-model="lattes" name="lattes" :value="lattes"/>
               <ul class="input-field-error" v-if="errors?.lattes">
                 <li v-for="error in errors?.lattes?._errors"> {{ error }}</li>
               </ul>
@@ -103,16 +103,14 @@ import * as z from 'zod';
 // Variáveis
 const router = useRouter(); // Para navegação
 const confirm = useConfirm(); // Para usar o confirmDialog do primeVue
-const form = ref({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  institution: '',
-  country: '',
-  city: '',
-  lattes: ''
-});
+const name = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const institution = ref("");
+const country = ref("");
+const city = ref("");
+const lattes = ref("");
 
 const formSchema = z.object({
   name: z.string()
@@ -157,19 +155,17 @@ const goHome = () => {
     });
 };
 
-function changeValue(varName: string, value: string) {
-  if (varName === 'name') form.value.name = value;
-  if (varName === 'email') form.value.email = value;
-  if (varName === 'password') form.value.password = value;
-  if (varName === 'confirmPassword') form.value.confirmPassword = value;
-  if (varName === 'institution') form.value.institution = value;
-  if (varName === 'country') form.value.country = value;
-  if (varName === 'city') form.value.city = value;
-  if (varName === 'lattes') form.value.lattes = value;
-}
-
 async function onSubmit() {
-  const valid = formSchema.safeParse(form.value);
+  const valid = formSchema.safeParse({
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    confirmPassword: confirmPassword.value,
+    institution: institution.value,
+    country: country.value,
+    city: city.value,
+    lattes: lattes.value
+  });
   if (!valid.success) {
     errors.value = valid.error.format();
   } else {
@@ -183,13 +179,13 @@ async function register(){
       await axios.post('http://localhost:3000/api/solicitation', {
         type: 'newUser',
         data: {
-          name: form.value.name,
-          email: form.value.email,
-          password: form.value.password,
-          institution: form.value.institution,
-          country: form.value.country,
-          city: form.value.city,
-          lattes: form.value.lattes
+          name: name.value,
+          email: email.value,
+          password: password.value,
+          institution: institution.value,
+          country: country.value,
+          city: city.value,
+          lattes: lattes.value
         }
       });
       toast.success('Solicitação enviada com sucesso!.');
@@ -231,7 +227,7 @@ async function register(){
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .input-field{
