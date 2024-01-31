@@ -78,7 +78,6 @@
             </div>
 
           <div class="button-field">
-            <ConfirmDialog></ConfirmDialog>
             <ButtonComp btn-class="btn-secondary" text="Voltar" @click="goHome"></ButtonComp>
             <ButtonComp btn-class="btn-primary" text="Cadastrar" btn-type="submit"></ButtonComp>
           </div>
@@ -93,8 +92,6 @@ import BoxComp from '@/components/BoxComp.vue';
 import ButtonComp from '@/components/ButtonComp.vue';
 import InputComp from '@/components/InputComp.vue';
 import axios from 'axios';
-import ConfirmDialog from 'primevue/confirmdialog';
-import { useConfirm } from "primevue/useconfirm";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
@@ -102,7 +99,6 @@ import * as z from 'zod';
 
 // Variáveis
 const router = useRouter(); // Para navegação
-const confirm = useConfirm(); // Para usar o confirmDialog do primeVue
 const name = ref("");
 const email = ref("");
 const password = ref("");
@@ -142,19 +138,6 @@ const formSchema = z.object({
 type formSchema = z.infer<typeof formSchema>;
 const errors = ref<z.ZodFormattedError<formSchema> | null>(null);
 
-// Funções
-const goHome = () => {
-    confirm.require({
-        message: 'Você tem certeza que deseja voltar?',
-        header: 'Retornar',
-        rejectLabel: 'Cancelar',
-        acceptLabel: 'Retornar',
-        acceptClass: 'p-button-secondary p-button-sm',
-        rejectClass: 'p-button-danger p-button-sm',
-        accept: () => router.push({ name: 'home' }),
-    });
-};
-
 async function onSubmit() {
   const valid = formSchema.safeParse({
     name: name.value,
@@ -172,6 +155,10 @@ async function onSubmit() {
     errors.value = null;
     await register();
   }
+}
+
+function goHome() {
+  router.push({ name: 'home' });
 }
 
 async function register(){

@@ -34,4 +34,7 @@
   --color-border-navside: #dbd8d8;
   --color-background-navside-hover: #73BF8E;
   --color-text-navside-hover: #ffff;
+
+  /* Header */
+  --color-background-header: #ffff;
 }
