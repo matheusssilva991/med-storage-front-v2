@@ -68,7 +68,7 @@ button:active {
     }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 768px) {
     button {
         font-size: 0.55em;
     }

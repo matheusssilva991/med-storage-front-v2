@@ -1,35 +1,42 @@
 <template>
-    <header class="header-container">
+    <header :class="{ 'header-container': true, 'header-container-clicked': isClicked }">
       <div class="header">
         <div class="header-logo">
           <router-link to="/">
-            <img src="../assets/images/logo.png" alt="Logo MedStorage" width="30%"/>
+            <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
           </router-link>
         </div>
-        <form class="header-login-form" @submit.prevent="login">
-          <InputComp type="email" placeholder="E-mail" class="input-login" v-model="email" :is-required="true">
-            <template #icon>
-              <font-awesome-icon icon="fa-solid fa-user" />
-            </template>
-          </InputComp>
+        <div v-if="isSmallScreen" class="header-login-sandwich" @click="isClicked = !isClicked">
+          <font-awesome-icon icon="fa-solid fa-bars" :class="{ rotated: isClicked }"/>
+        </div>
+        <form v-if="isSmallScreen && isClicked || !isSmallScreen" class="header-login-form" @submit.prevent="login">
+          <div class="header-login-form-inputs">
+            <InputComp type="email" placeholder="E-mail" class="input-login" v-model="email" :is-required="true">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-user" />
+              </template>
+            </InputComp>
+  
+            <InputComp type="password" placeholder="Senha" class="input-login" v-model="password" :is-required="true">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-key" />
+              </template>
+            </InputComp>
+          </div>
+          <div class="header-login-form-btn">
+            <ButtonComp btn-type="submit" text="Login" class="btn-login">
+              <template #icon>
+                <font-awesome-icon icon="fa fa-arrow-right-to-bracket" />
+              </template>
+            </ButtonComp>
+  
+            <ButtonComp @click="goToRegister" text="Registrar" btn-class="btn-outline-primary" class="btn-login">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-user-plus" />
+              </template>
+            </ButtonComp>
+          </div>
 
-          <InputComp type="password" placeholder="Senha" class="input-login" v-model="password" :is-required="true">
-            <template #icon>
-              <font-awesome-icon icon="fa-solid fa-key" />
-            </template>
-          </InputComp>
-
-          <ButtonComp btn-type="submit" text="Login" class="btn-login">
-            <template #icon>
-              <font-awesome-icon icon="fa fa-arrow-right-to-bracket" />
-            </template>
-          </ButtonComp>
-
-          <ButtonComp @click="goToRegister" text="Registrar" btn-class="btn-outline-primary" class="btn-login">
-            <template #icon>
-              <font-awesome-icon icon="fa-solid fa-user-plus" />
-            </template>
-          </ButtonComp>
         </form>
       </div>
     </header>
@@ -39,19 +46,29 @@
 import ButtonComp from '@/components/ButtonComp.vue';
 import InputComp from '@/components/InputComp.vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faArrowRightToBracket, faUserPlus, faUser, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightToBracket, faUserPlus, faUser, faKey, faBars } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'vue-router';
 import { toastSuccess, toastError } from '@/helpers/toast-messages';
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 
+// Variáveis
 const router = useRouter(); // Para navegação
-
-library.add(faArrowRightToBracket, faUserPlus, faUser, faKey);
+library.add(faArrowRightToBracket, faUserPlus, faUser, faKey, faBars);
 
 const email = ref('');
 const password = ref('');
+const windowWidth = ref(window.innerWidth)
+const windowHeight = ref(window.innerHeight)
+const isSmallScreen = ref(false);
+const isClicked = ref(false);
+const isLogged = ref(false);
 
+if (windowWidth.value < 720) {
+  isSmallScreen.value = true;
+}
+
+// Funções
 const login = async () => {
   try {
     const response = await axios.post('http://localhost:3000/api/login', {
@@ -75,6 +92,29 @@ const goToRegister = () => {
   router.push('/register');
 }
 
+const handleResize = () => {
+    windowWidth.value = window.innerWidth;
+    windowHeight.value = window.innerHeight;
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+})
+
+watch(windowWidth, (newWidth) => {
+  if (newWidth < 768) {
+    isSmallScreen.value = true;
+  } else {
+    isClicked.value = false;
+    isSmallScreen.value = false;
+  }
+});
+
+
 </script>
 
 <style scoped>
@@ -89,21 +129,53 @@ const goToRegister = () => {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px
 }
 
+.header-container-clicked {
+  height: 200px;
+}
+
 .header {
     width: 97%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.header-logo {
+    width: 45%;
 }
 
 .header-login-form {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 45%;
-    gap: 0.6rem;
+    width: 55%;
+    display: flex;
+    gap: 1.5rem;
     color: var(--color-heading);
+    justify-content: flex-end;
+}
+
+.header-login-form-inputs {
+    display: flex;
+    gap: 0.6rem;
+    width: 65%;
+}
+
+.header-login-form-btn {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    width: 25%;
+}
+
+.header-login-sandwich {
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.header-login-sandwich:hover {
+  cursor: pointer;
+  color: var(--color-heading);
 }
 
 .input-login {
@@ -114,5 +186,35 @@ const goToRegister = () => {
   width: 10px;
 }
 
+.rotated {
+  transform: rotate(90deg);
+}
 
-</style>@/helpers/toast-messages
+@media only screen and (max-width: 768px) {
+
+  .header {
+    gap: 1rem;
+    justify-content: space-around;
+  }
+
+  .header-login-form {
+    flex-direction: column;
+    width: 70%;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .header-login-form-inputs {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 60%;
+  }
+
+  .header-login-form-btn {
+    gap: 1rem;
+    width: 60%;
+  }
+
+}
+
+</style>
