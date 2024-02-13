@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import LoggedTemplateComp from '@/components/LoggedTemplateComp.vue';
 import BoxComp from '@/components/BoxComp.vue';
-import ButtonComp from '@/components/ButtonComp.vue';
+import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 

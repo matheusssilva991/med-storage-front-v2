@@ -2,14 +2,17 @@
     <header :class="{ 'header-container': true, 'header-container-clicked': isClicked }">
       <div class="header">
         <div class="header-logo">
-          <router-link to="/">
+          <router-link to="/" v-if="!isLogged">
+            <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
+          </router-link>
+          <router-link to="/databases" v-else>
             <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
           </router-link>
         </div>
-        <div v-if="isSmallScreen" class="header-login-sandwich" @click="isClicked = !isClicked">
+        <div v-if="isSmallScreen && !isLogged" class="header-login-sandwich" @click="isClicked = !isClicked">
           <font-awesome-icon icon="fa-solid fa-bars" :class="{ rotated: isClicked }"/>
         </div>
-        <form v-if="isSmallScreen && isClicked || !isSmallScreen" class="header-login-form" @submit.prevent="login">
+        <form v-if="(isSmallScreen && isClicked || !isSmallScreen) && !isLogged" class="header-login-form" @submit.prevent="login">
           <div class="header-login-form-inputs">
             <InputComp type="email" placeholder="E-mail" class="input-login" v-model="email" :is-required="true">
               <template #icon>
@@ -38,23 +41,41 @@
           </div>
 
         </form>
+        <div v-if="isLogged" class="logged-menu-dropdown">
+            <ButtonDropdownComp text="User">
+              <template #icon>
+                <font-awesome-icon icon="fa-solid fa-circle-user" />
+              </template>
+              <template #dropdownItens>
+                <li>
+                  Editar Perfil
+                </li>
+                <li @click="logout">
+                  <router-link to="/">Logout</router-link>
+                </li>
+              </template>
+            </ButtonDropdownComp>
+        </div>
       </div>
     </header>
 </template>
 
 <script setup lang="ts">
-import ButtonComp from '@/components/ButtonComp.vue';
-import InputComp from '@/components/InputComp.vue';
+import ButtonComp from '@/components/buttons/ButtonComp.vue';
+import InputComp from '@/components/inputs/InputComp.vue';
+import ButtonDropdownComp from './buttons/ButtonDropdownComp.vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faArrowRightToBracket, faUserPlus, faUser, faKey, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightToBracket, faUserPlus, faUser,
+   faKey, faBars, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'vue-router';
 import { toastSuccess, toastError } from '@/helpers/toast-messages';
 import axios from 'axios';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { checkToken } from '@/helpers/auth';
 
 // Variáveis
 const router = useRouter(); // Para navegação
-library.add(faArrowRightToBracket, faUserPlus, faUser, faKey, faBars);
+library.add(faArrowRightToBracket, faUserPlus, faUser, faKey, faBars, faCircleUser);
 
 const email = ref('');
 const password = ref('');
@@ -78,14 +99,28 @@ const login = async () => {
 
     const { accessToken } = response.data;
     localStorage.setItem('token', accessToken);
+    isLogged.value = true;
+    await router.push('/databases');
     toastSuccess('Login efetuado com sucesso!');
-    router.push('/databases');
   } catch (error: any) {
     const messages = error.response.data.message;
-    for (let message of messages) {
-      toastError(message);
+
+    if (Array.isArray(messages)) {
+      for (let message of messages) {
+        toastError(message);
+      }
+    } else {
+      toastError(messages);
     }
   }
+}
+
+const logout = () => {
+  localStorage.removeItem('token');
+  isLogged.value = false;
+  email.value = '';
+  password.value = '';
+  toastSuccess('Logout efetuado com sucesso!');
 }
 
 const goToRegister = () => {
@@ -97,8 +132,13 @@ const handleResize = () => {
     windowHeight.value = window.innerHeight;
 }
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('resize', handleResize);
+
+  const token = localStorage.getItem('token');
+  if (await checkToken(token)) {
+    isLogged.value = true;
+  }
 })
 
 onUnmounted(() => {
@@ -130,7 +170,7 @@ watch(windowWidth, (newWidth) => {
 }
 
 .header-container-clicked {
-  height: 200px;
+  height: 180px;
 }
 
 .header {
@@ -158,7 +198,7 @@ watch(windowWidth, (newWidth) => {
 .header-login-form-inputs {
     display: flex;
     gap: 0.6rem;
-    width: 65%;
+    width: 55%;
 }
 
 .header-login-form-btn {

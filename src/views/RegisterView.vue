@@ -89,8 +89,8 @@
 
 <script setup lang="ts">
 import BoxComp from '@/components/BoxComp.vue';
-import ButtonComp from '@/components/ButtonComp.vue';
-import InputComp from '@/components/InputComp.vue';
+import ButtonComp from '@/components/buttons/ButtonComp.vue';
+import InputComp from '@/components/inputs/InputComp.vue';
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
