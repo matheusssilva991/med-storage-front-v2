@@ -74,7 +74,7 @@ ul {
 }
 
 .dropdown:deep(li) {
-    padding: 0.4em 0.5em;
+    padding: 0.4em 0.7em;
     cursor: pointer;
     font-size: 0.9em;
 }
@@ -117,6 +117,10 @@ button {
         font-size: 0.9em;
         padding: 0.4em 0.7em;
     }
+
+    .dropdown:deep(li) {
+        font-size: 0.8em;
+    } 
 }
 
 @media only screen and (max-width: 768px) {
