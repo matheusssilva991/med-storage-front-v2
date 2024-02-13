@@ -73,28 +73,28 @@ ul {
     margin: 0;
 }
 
-.dropdown::v-deep li {
-    padding: 0.2em 0.5em;
+.dropdown:deep(li) {
+    padding: 0.4em 0.5em;
     cursor: pointer;
     font-size: 0.9em;
 }
 
-.dropdown::v-deep li:hover {
+.dropdown:deep(li:hover) {
     background-color: var(--color-heading);
     color: var(--color-background-header);
 }
 
-.dropdown::v-deep a {
+.dropdown:deep(a) {
     text-decoration: none;
     color: var(--color-text);
 }
 
-.dropdown::v-deep a:hover {
+.dropdown:deep(a:hover) {
     text-decoration: none;
     color: var(--color-background-header);
 }
 
-.dropdown::v-deep a:active {
+.dropdown:deep(a:active) {
     text-decoration: none;
     color: var(--color-background-header);
 }

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function checkToken (token: string | undefined | null) {
   if (!token) {
-    return false;
+    return undefined;
   }
 
   try {
@@ -11,9 +11,9 @@ export async function checkToken (token: string | undefined | null) {
         Authorization: `Bearer ${token}`
       }
     }) 
-    return true;
+    return data.user;
   } catch (error) {
     localStorage.removeItem('token')
-    return false;
+    return undefined;
   }
 }

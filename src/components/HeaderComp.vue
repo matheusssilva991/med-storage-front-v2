@@ -42,7 +42,7 @@
 
         </form>
         <div v-if="isLogged" class="logged-menu-dropdown">
-            <ButtonDropdownComp text="User">
+            <ButtonDropdownComp :text="user.name">
               <template #icon>
                 <font-awesome-icon icon="fa-solid fa-circle-user" />
               </template>
@@ -84,6 +84,7 @@ const windowHeight = ref(window.innerHeight)
 const isSmallScreen = ref(false);
 const isClicked = ref(false);
 const isLogged = ref(false);
+const user = ref();
 
 if (windowWidth.value < 720) {
   isSmallScreen.value = true;
@@ -100,6 +101,8 @@ const login = async () => {
     const { accessToken } = response.data;
     localStorage.setItem('token', accessToken);
     isLogged.value = true;
+    user.value = await checkToken(accessToken);
+
     await router.push('/databases');
     toastSuccess('Login efetuado com sucesso!');
   } catch (error: any) {
@@ -136,7 +139,9 @@ onMounted(async () => {
   window.addEventListener('resize', handleResize);
 
   const token = localStorage.getItem('token');
-  if (await checkToken(token)) {
+  user.value = await checkToken(token);
+
+  if (user.value) {
     isLogged.value = true;
   }
 })
@@ -153,7 +158,6 @@ watch(windowWidth, (newWidth) => {
     isSmallScreen.value = false;
   }
 });
-
 
 </script>
 
