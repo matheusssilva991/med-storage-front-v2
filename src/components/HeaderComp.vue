@@ -143,6 +143,7 @@ onMounted(async () => {
 
   if (user.value) {
     isLogged.value = true;
+    router.push('/databases');
   }
 })
 

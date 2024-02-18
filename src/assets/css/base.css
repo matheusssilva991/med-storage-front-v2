@@ -38,4 +38,10 @@
   /* Header */
   --color-background-header: #ffff;
   --color-dropdown-border: #dbd8d8;
+
+  /* Table */
+  --color-background-table-hover: #f2f2f2;
+  --color-text-table-hover: #ffff;
+  --color-body-table: #80BFAD;
+  --color-border-table: #e0e0e0;
 }
