@@ -41,12 +41,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="database in databases" key="_id">
+							<tr v-for="database in databases" :key="database._id">
 								<td>{{ database.name }}</td>
 								<td>{{ database.examType.name }}</td>
 								<td>{{ database.images.length }} imagens</td>
 								<td class="table-actions">
-									<button aria-label="Visualizar" @click="isOpenViewModal = !isOpenViewModal">
+									<button aria-label="Visualizar" @click="openViewModal(database._id)">
 										<font-awesome-icon icon="fa-solid fa-eye" />
 									</button>
 									<button v-if="user.role === 'admin'" aria-label="Editar">
@@ -74,6 +74,7 @@
 		</template>
 	</LoggedTemplateComp>
 	<CreateDatabaseModalComp :open="isOpenCreateModal" @close="closeCreateModal"/>
+	<ViewDatabaseModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal" :databaseId="databaseId"/>
 </template>
 
 <script setup lang="ts">
@@ -87,6 +88,7 @@ import { nextPage, prevPage } from '@/helpers/pagination';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEye, faFilter, faMagnifyingGlass, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { onMounted, ref, watch } from 'vue';
+import ViewDatabaseModalComp from '@/components/modals/database/ViewDatabaseModalComp.vue';
 
 library.add(faPlus, faEye, faPenToSquare, faTrash, faMagnifyingGlass, faFilter);
 
@@ -99,12 +101,23 @@ const search = ref('');
 const filter = ref('');
 const page = ref(1);
 const limit = ref(8);
+const databaseId = ref('');
 
 // Funções
 const closeCreateModal = async () => {
 	isOpenCreateModal.value = !isOpenCreateModal.value;
 	const response = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
 	databases.value = response.data;
+};
+
+const openViewModal = (id: string) => {
+	isOpenViewModal.value = !isOpenViewModal.value;
+	databaseId.value = id;
+};
+
+const closeViewModal = () => {
+	isOpenViewModal.value = !isOpenViewModal.value;
+	databaseId.value = '';
 };
 
 // HOOKS

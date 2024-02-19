@@ -6,8 +6,7 @@
                 <form class="form" @submit.prevent="onSubmit">
                     <div class="input-field">
                         <label for="name">Name *</label>
-                        <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" v-model="name" name="name"
-                            :value="name" />
+                        <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" v-model="name" name="name" />
                         <ul class="input-field-error" v-if="errors?.name">
                             <li v-for="error in errors?.name?._errors"> {{ error }}</li>
                         </ul>
@@ -16,7 +15,7 @@
                     <div class="input-field">
                         <label for="E-mail">E-mail *</label>
                         <InputComp placeholder="Informe seu e-mail" type="email" id="email" :isRequired="true"
-                            v-model="email" name="email" :value="email" />
+                            v-model="email" name="email" />
                         <ul class="input-field-error" v-if="errors?.email">
                             <li v-for="error in errors?.email?._errors"> {{ error }}</li>
                         </ul>
@@ -25,7 +24,7 @@
                     <div class="input-field">
                         <label for="password">Senha *</label>
                         <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="password"
-                            v-model="password" name="password" :value="password" />
+                            v-model="password" name="password" />
                         <ul class="input-field-error" v-if="errors?.password">
                             <li v-for="error in errors?.password?._errors"> {{ error }}</li>
                         </ul>
@@ -34,7 +33,7 @@
                     <div class="input-field">
                         <label for="confirmPassword">Confirmar senha *</label>
                         <InputComp placeholder="Informe sua senha" type="password" :isRequired="true" id="confirmPassword"
-                            v-model="confirmPassword" name="confirmPassword" :value="confirmPassword" />
+                            v-model="confirmPassword" name="confirmPassword" />
                         <ul class="input-field-error" v-if="errors?.confirmPassword">
                             <li v-for="error in errors?.confirmPassword?._errors"> {{ error }}</li>
                         </ul>
@@ -43,7 +42,7 @@
                     <div class="input-field">
                         <label for="institution">Instituição *</label>
                         <InputComp placeholder="Informe sua instituição" id="institution" :isRequired="true"
-                            v-model="institution" name="institution" :value="institution" />
+                            v-model="institution" name="institution" />
                         <ul class="input-field-error" v-if="errors?.institution">
                             <li v-for="error in errors?.institution?._errors"> {{ error }}</li>
                         </ul>
@@ -52,7 +51,7 @@
                     <div class="input-field">
                         <label for="country">País *</label>
                         <InputComp placeholder="Informe seu país" id="country" :isRequired="true" v-model="country"
-                            name="country" :value="country" />
+                            name="country" />
                         <ul class="input-field-error" v-if="errors?.country">
                             <li v-for="error in errors?.country?._errors"> {{ error }}</li>
                         </ul>
@@ -60,7 +59,7 @@
 
                     <div class="input-field">
                         <label for="city">Cidade</label>
-                        <InputComp placeholder="Informe sua Cidade" id="city" v-model="city" name="city" :value="city" />
+                        <InputComp placeholder="Informe sua Cidade" id="city" v-model="city" name="city" />
                         <ul class="input-field-error" v-if="errors?.city">
                             <li v-for="error in errors?.city?._errors"> {{ error }}</li>
                         </ul>
@@ -69,8 +68,7 @@
 
                     <div class="input-field">
                         <label for="lattes">Currículo Lattes</label>
-                        <InputComp placeholder="Informe o link do Lattes" id="lattes" v-model="lattes" name="lattes"
-                            :value="lattes" />
+                        <InputComp placeholder="Informe o link do Lattes" id="lattes" v-model="lattes" name="lattes" />
                         <ul class="input-field-error" v-if="errors?.lattes">
                             <li v-for="error in errors?.lattes?._errors"> {{ error }}</li>
                         </ul>

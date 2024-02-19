@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 
-const props = defineProps({
+defineProps({
     type: {
         type: String,
         default: 'text'
@@ -21,10 +21,6 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    value: {
-        type: String,
-        default: ''
-    },
     isDisabled: {
         type: Boolean,
         default: false
@@ -36,8 +32,6 @@ const props = defineProps({
 });
 
 const inputValue = defineModel();
-inputValue.value = props.value;
-
 
 </script>
 

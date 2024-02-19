@@ -6,7 +6,7 @@
                     <div class="input-field">
                         <label for="name">Name *</label>
                         <InputComp placeholder="Informe o nome do banco" id="name" :isRequired="true" v-model="name"
-                            name="name" :value="name" />
+                            name="name" />
                         <ul class="input-field-error" v-if="errors?.name">
                             <li v-for="error in errors?.name?._errors"> {{ error }}</li>
                         </ul>
@@ -15,7 +15,7 @@
                     <div class="input-field">
                         <label for="examType">Tipo de exame *</label>
                         <SelectInputComp :options="examTypes" id="examType" :isRequired="true" v-model="examType"
-                            name="examType" :value="examType" />
+                            name="examType" />
                         <ul class="input-field-error" v-if="errors?.examType">
                             <li v-for="error in errors?.examType?._errors"> {{ error }}</li>
                         </ul>
@@ -24,7 +24,7 @@
                     <div class="input-field">
                         <label for="imageType">Tipo de imagem *</label>
                         <SelectInputComp :options="imageTypes" id="imageType" :isRequired="true" v-model="imageType"
-                            name="imageType" :value="imageType" />
+                            name="imageType" />
                         <ul class="input-field-error" v-if="errors?.imageType">
                             <li v-for="error in errors?.imageType?._errors"> {{ error }}</li>
                         </ul>
@@ -33,7 +33,7 @@
                     <div class="input-field">
                         <label for="imageType">Qualidade das imagens *</label>
                         <InputComp placeholder="8, 12, 16" id="imageQuality" :isRequired="true" v-model="imageQuality"
-                            name="imageQuality" :value="imageQuality" />
+                            name="imageQuality" />
                         <ul class="input-field-error" v-if="errors?.imageQuality">
                             <li v-for="error in errors?.imageQuality?._errors"> {{ error }}</li>
                         </ul>
@@ -51,7 +51,7 @@
                     <div class="input-field">
                         <label for="url">Link do banco</label>
                         <InputComp placeholder="Informe a URL do banco de imagens" id="url" :isRequired="false" v-model="url"
-                            name="url" :value="url" />
+                            name="url"/>
                         <ul class="input-field-error" v-if="errors?.url">
                             <li v-for="error in errors?.url?._errors"> {{ error }}</li>
                         </ul>

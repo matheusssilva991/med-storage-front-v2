@@ -29,13 +29,14 @@
                     </InputComp>
                 </div>
                 <div class="header-login-form-btn">
-                    <ButtonComp btn-type="submit" text="Login" class="btn-login">
+                    <ButtonComp btn-type="submit" text="Login" class="btn-login" id="login-btn">
                         <template #icon>
                             <font-awesome-icon icon="fa fa-arrow-right-to-bracket" />
                         </template>
                     </ButtonComp>
 
-                    <ButtonComp @click="goToRegister" text="Registrar" btn-class="btn-outline-primary" class="btn-login">
+                    <ButtonComp @click="goToRegister" text="Registrar" btn-class="btn-outline-primary" 
+                    class="btn-login" id="register-btn">
                         <template #icon>
                             <font-awesome-icon icon="fa-solid fa-user-plus" />
                         </template>
