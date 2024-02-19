@@ -72,7 +72,7 @@ const props = defineProps({
 .content {
     width: 100%;
     margin-top: 2rem;
-    height: 60%;
+    height: 100%;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -109,7 +109,7 @@ const props = defineProps({
     }
 
     .inputs {
-        width: 100%;
+        width: 50%;
     }
 }
 

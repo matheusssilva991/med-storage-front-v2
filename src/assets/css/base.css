@@ -18,6 +18,8 @@
   --color-background-btn-danger-hover: #b02a37;
   --color-text-btn-danger: #fff;
 
+  --color-background-btn-disabled: #666666;
+
   /* Input */
   --color-border-input: #dbd8d8;
   --color-background-input: #ffff;
@@ -44,4 +46,7 @@
   --color-text-table-hover: #ffff;
   --color-body-table: #80BFAD;
   --color-border-table: #e0e0e0;
+
+  /* Modal */
+  --color-border-modal: #e0e0e0;
 }

@@ -3,7 +3,7 @@
     <BoxComp class="box" title="Solicitar cadastro">
   
       <template #content>
-        <form class="register-form" @submit.prevent="onSubmit">
+        <form class="form" @submit.prevent="onSubmit">
             <div class="input-field">
               <label for="name">Name *</label>
               <InputComp placeholder="Informe seu nome" id="name" :isRequired="true" 
@@ -91,10 +91,10 @@
 import BoxComp from '@/components/BoxComp.vue';
 import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
+import { toastError, toastSuccess } from '@/helpers/toast-messages';
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { toast } from 'vue3-toastify';
 import * as z from 'zod';
 
 // Variáveis
@@ -175,17 +175,17 @@ async function register(){
           lattes: lattes.value
         }
       });
-      toast.success('Solicitação enviada com sucesso!.');
+      toastSuccess('Solicitação de cadastro enviada com sucesso!');
       router.push({ name: 'home' });
   } catch (error: any) {
       const messages = error?.response?.data?.message;
       
       if (typeof messages === 'object') {
         messages.forEach((message: string) => {
-          toast.error(message);
+          toastError(message);
         });
       } else {
-        toast.error(messages);
+        toastError(messages);
       }
   }
 }
@@ -208,7 +208,7 @@ async function register(){
   margin-top: 2.5rem;
 }
 
-.register-form {
+.form {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

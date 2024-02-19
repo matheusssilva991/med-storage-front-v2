@@ -4,13 +4,18 @@
 			<transition name="drop-in">
 				<div class="modal-inner" v-show="open">
 					<div class="modal-header">
-						<h1>{{ title }}</h1>
+						<div class="title">
+							<h1>{{ title }}</h1>
+						</div>
 						<button type="button" @click="close">
 							<font-awesome-icon icon="fa-solid fa-xmark" />
 						</button>
 					</div>
 					<div class="modal-content">
 						<slot name="content"></slot>
+					</div>
+					<div class="modal-footer">
+						<slot name="footer"></slot>
 					</div>
 				</div>
 			</transition>
@@ -66,23 +71,38 @@ const close = () => {
 
 .modal-inner {
 	max-width: fit-content;
-	margin: 2rem auto;
+	margin: 5rem auto;
 	background-color: var(--color-background-box);
 	border: 1px solid var(--color-border-navside);
-	padding: 1rem;
+	padding: 2rem;
 	border-radius: var(--border-radius);
+	overflow-y: scroll;
+	max-height: 700px;
 }
 
 .modal-header {
 	position: relative;
 	display: flex;
 	justify-content: space-between;
+	align-items: baseline;
 	gap: 0.5rem;
+	padding-bottom: 2rem;
+	border-bottom: 1px solid var(--color-border-modal);
 }
 
 .modal-header h1 {
-	font-size: 1.5rem;
+	font-size: 1.7rem;
 	color: var(--color-heading);
+}
+
+.modal-header h1::first-letter {
+	text-transform: uppercase;
+}
+
+.modal-header .title {
+	max-width: 500px;
+	display: flex;
+	align-items: center;
 }
 
 .modal-header button {
@@ -100,9 +120,12 @@ const close = () => {
 }
 
 .modal-content {
+	padding-top: 1rem;
 	position: relative;
 	background-clip: padding-box;
 	margin-top: 1rem;
+	padding-bottom: 2rem;
+	border-bottom: 1px solid var(--color-border-modal);
 }
 
 .fade-enter-active,

@@ -1,5 +1,6 @@
 <template>
-    <button :class="btnClass" :type="btnType">
+    <button :class="btnClass" :type="btnType" :disabled="isDisabled" 
+    :id="disabled">
         <slot name="icon"></slot>
         {{ text }}
     </button>
@@ -7,6 +8,7 @@
 
 <script setup lang="ts">
 import type { PropType, ButtonHTMLAttributes } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
     text: {
@@ -38,8 +40,15 @@ const props = defineProps({
                 undefined
             ].includes(value)
         }
+    },
+    isDisabled: {
+        type: Boolean,
+        default: false
     }
 });
+
+const disabled = ref('');
+disabled.value = props.isDisabled ? 'disabled' : '';
 
 </script>
 
@@ -59,6 +68,20 @@ button {
 
 button:active {
     transform: scale(0.98);
+}
+
+#disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+    background-color: var(--color-background-btn-disabled);
+}
+
+#disabled:active {
+    transform: scale(1);
+}
+
+#disabled:hover {
+    background-color: var(--color-background-btn-disabled);
 }
 
 @media only screen and (max-width: 1024px) {
