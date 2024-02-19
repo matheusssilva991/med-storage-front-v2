@@ -1,8 +1,8 @@
 <template>
-    <div class="input-container">
+    <div class="text-area-container">
         <slot name="icon"></slot>
-        <input :type="type" v-model="inputValue" :placeholder="placeholder" :required="isRequired" 
-        :disabled="isDisabled">
+        <textarea :type="type" :readonly="isReadonly" :placeholder="placeholder" :cols="cols" :rows="rows"
+        :name="name" :maxlength="maxLength" :required="isRequired" v-model="inputValue"></textarea>
     </div>
 </template>
 
@@ -21,33 +21,39 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    value: {
-        type: String,
-        default: ''
-    },
-    isDisabled: {
+    isReadonly: {
         type: Boolean,
         default: false
     },
     name: {
         type: String,
         default: ''
-    }
+    },
+    maxLength: {
+        type: Number,
+        default: 100
+    },
+    cols: {
+        type: Number,
+        default: 5
+    },
+    rows: {
+        type: Number,
+        default: 10
+    },
 });
 
-const inputValue = defineModel();
-inputValue.value = props.value;
-
+const inputValue = defineModel({default: '' });
 
 </script>
 
 <style scoped>
-input {
+textarea {
   border: 1px solid var(--color-border-input);
   border-radius: var(--border-radius);
   color: var(--color-text-input);
   background-color: var(--color-background-input);
-  padding: 0.4em 0.6em;
+  padding: 0.6em 0.6em;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,23 +62,23 @@ input {
   /* box-shadow: 0.6px 1.1px 1.1px hsl(0deg 0% 0% / 0.48); */
 }
 
-input:focus {
+textarea:focus {
   border: 1px solid var(--color-text);
   color:var(--color-text);
   outline: none;
 }
 
-input:focus::placeholder {
+textarea:focus::placeholder {
   color: var(--color-placeholder-input);
 }
 
-input:disabled {
+textarea:disabled {
   background-color: var(--color-background-input-disabled);
   color: var(--color-text-input-disabled);
   cursor: text;
 }
 
-.input-container {
+.text-area-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,12 +86,12 @@ input:disabled {
 }
 
 @media only screen and (max-width: 1024px) {
-    input {
+    textarea {
         font-size: 0.9em;
-        padding: 0.3em 0.6em;
+        padding: 0.5em 0.5em;
     }
 
-    .input-container {
+    .text-area-container {
         gap: 0.3rem;
         font-size: 0.8em;
     }

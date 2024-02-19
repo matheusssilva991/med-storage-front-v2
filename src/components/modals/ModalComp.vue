@@ -71,7 +71,7 @@ const close = () => {
 
 .modal-inner {
 	max-width: fit-content;
-	margin: 5rem auto;
+	margin: 3rem auto;
 	background-color: var(--color-background-box);
 	border: 1px solid var(--color-border-navside);
 	padding: 2rem;

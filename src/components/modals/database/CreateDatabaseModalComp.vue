@@ -5,13 +5,13 @@
                 <div class="form-container">
                     <div class="input-field">
                         <label for="name">Name *</label>
-                        <InputComp placeholder="Informe o nome do banco" id="name" :isRequired="true" v-model="name" name="name"
-                            :value="name" />
+                        <InputComp placeholder="Informe o nome do banco" id="name" :isRequired="true" v-model="name"
+                            name="name" :value="name" />
                         <ul class="input-field-error" v-if="errors?.name">
                             <li v-for="error in errors?.name?._errors"> {{ error }}</li>
                         </ul>
                     </div>
-                    
+
                     <div class="input-field">
                         <label for="examType">Tipo de exame *</label>
                         <SelectInputComp :options="examTypes" id="examType" :isRequired="true" v-model="examType"
@@ -20,7 +20,7 @@
                             <li v-for="error in errors?.examType?._errors"> {{ error }}</li>
                         </ul>
                     </div>
-    
+
                     <div class="input-field">
                         <label for="imageType">Tipo de imagem *</label>
                         <SelectInputComp :options="imageTypes" id="imageType" :isRequired="true" v-model="imageType"
@@ -36,6 +36,24 @@
                             name="imageQuality" :value="imageQuality" />
                         <ul class="input-field-error" v-if="errors?.imageQuality">
                             <li v-for="error in errors?.imageQuality?._errors"> {{ error }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="description">Descrição *</label>
+                        <TextAreaCompVue id="description" :isRequired="true" v-model="description" name="description"
+                        :max-length="maxLength" :cols="100" :rows="10" placeholder="Informe uma breve descrição do banco"/>
+                        <ul class="input-field-error" v-if="errors?.description">
+                            <li v-for="error in errors?.description?._errors"> {{ error }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="url">Link do banco</label>
+                        <InputComp placeholder="Informe a URL do banco de imagens" id="url" :isRequired="false" v-model="url"
+                            name="url" :value="url" />
+                        <ul class="input-field-error" v-if="errors?.url">
+                            <li v-for="error in errors?.url?._errors"> {{ error }}</li>
                         </ul>
                     </div>
                 </div>
@@ -56,40 +74,38 @@ import ModalComp from '../ModalComp.vue';
 import axios from 'axios';
 import InputComp from '../../inputs/InputComp.vue';
 import ButtonComp from '../../buttons/ButtonComp.vue';
-import { ref, onMounted, watch } from 'vue';
+import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
+import { ref, onMounted, computed } from 'vue';
 import * as z from 'zod';
 import SelectInputComp from '@/components/inputs/SelectInputComp.vue';
 import { getData } from '@/helpers/api';
+import { toastSuccess, toastError } from '@/helpers/toast-messages';
 
 const name = ref("");
 const description = ref("");
-const examType = ref("");
-const imageType = ref("");
+const examType: any = ref({});
+const imageType: any = ref({});
 const imageQuality = ref("");
+const url = ref("");
 const examTypes = ref([]);
 const imageTypes = ref([]);
+const maxLength = 2000;
 
-onMounted(async () => {
-    const examTypeResponse = await getData('http://localhost:3000/api/exam-types');
-    const imageTypeResponse = await getData('http://localhost:3000/api/image-types');
-
-    examTypes.value = examTypeResponse.data.map((examType: any) => {
-        return examType.name;
-    })
-    imageTypes.value = imageTypeResponse.data.map((imageType: any) => {
-        return imageType.name;
-    })
-
-    examType.value = examTypes.value[0];
-    imageType.value = imageTypes.value[0];
+const imageQualityArray = computed(() => {
+    const numberStringArray = imageQuality.value.split(',');
+    const numberArray = numberStringArray.map(number => parseInt(number.trim(), 10));
+    return numberArray;
 });
 
 const formSchema = z.object({
     name: z.string().min(1, { message: 'O campo nome é requerido.' }),
-    description: z.string().min(1, { message: 'O campo descrição é requerido.' }),
+    description: z.string().min(1, { message: 'O campo descrição é requerido.' })
+    .max(maxLength, { message: `O campo descrição deve ter no máximo ${maxLength} caracteres.` }),
     examType: z.string().min(1, { message: 'O campo tipo de exame é requerido.' }),
     imageType: z.string().min(1, { message: 'O campo tipo de imagem é requerido.' }),
     imageQuality: z.string().min(1, { message: 'O campo qualidade de imagem é requerido.' })
+    .regex(/^[0-9\s,]+$/, { message: 'O campo qualidade de imagem deve conter apenas números separados por vírgula.' }),
+    url: z.string().optional(),
 });
 
 type formSchema = z.infer<typeof formSchema>;
@@ -103,24 +119,72 @@ defineProps({
 });
 
 const onSubmit = async () => {
-    try {
-        await axios.post('/databases', {
-
-        });
-    } catch (error) {
-        console.error(error);
+    const valid = formSchema.safeParse({
+        name: name.value,
+        description: description.value,
+        examType: examType.value.value,
+        imageType: imageType.value.value,
+        imageQuality: imageQuality.value,
+        url: url.value
+    });
+    if (!valid.success) {
+        errors.value = valid.error.format();
+    } else {
+        errors.value = null;
+        await register();
     }
 };
+
+const register = async () => {
+    try {
+        await axios.post('http://localhost:3000/api/database', {
+            name: name.value,
+            description: description.value,
+            examType: examType.value._id,
+            imageType: imageType.value._id,
+            imageQuality: imageQualityArray.value,
+            url: url.value
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        toastSuccess('Banco de imagens cadastrado com sucesso!');
+        close();
+    } catch (error: any) {
+        const messages = error?.response?.data?.message;
+
+        if (typeof messages === 'object') {
+            messages.forEach((message: string) => {
+                toastError(message);
+            });
+        } else {
+            toastError(messages);
+        }
+    }
+};
+
+onMounted(async () => {
+    const examTypeResponse = await getData('http://localhost:3000/api/exam-types');
+    const imageTypeResponse = await getData('http://localhost:3000/api/image-types');
+
+    examTypes.value = examTypeResponse.data.map((examType: any) => {
+        return { value : examType.name, _id: examType._id };
+    })
+    imageTypes.value = imageTypeResponse.data.map((imageType: any) => {
+        return { value : imageType.name, _id: imageType._id };
+    })
+
+    examType.value = examTypes.value[0];
+    imageType.value = imageTypes.value[0];
+});
 
 const emit = defineEmits(["close"]);
 
 const close = () => {
     emit("close");
 };
-
-watch(examType, (newValue) => {
-    console.log(newValue);
-});
 
 </script>
 
@@ -133,6 +197,14 @@ watch(examType, (newValue) => {
     justify-content: space-between;
     align-items: baseline;
     gap: 1.5rem;
+}
+
+.form-container div:nth-child(5) {
+    width: 100%;
+}
+
+.form-container div:nth-child(6) {
+    width: 100%;
 }
 
 .input-field {

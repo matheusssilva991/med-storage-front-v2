@@ -73,7 +73,7 @@
 			</BoxComp>
 		</template>
 	</LoggedTemplateComp>
-	<CreateDatabaseModalComp :open="isOpenCreateModal" @close="isOpenCreateModal = !isOpenCreateModal"/>
+	<CreateDatabaseModalComp :open="isOpenCreateModal" @close="closeCreateModal"/>
 </template>
 
 <script setup lang="ts">
@@ -81,15 +81,16 @@ import BoxComp from '@/components/BoxComp.vue';
 import LoggedTemplateComp from '@/components/LoggedTemplateComp.vue';
 import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
+import CreateDatabaseModalComp from '@/components/modals/database/CreateDatabaseModalComp.vue';
+import { getData } from '@/helpers/api';
+import { nextPage, prevPage } from '@/helpers/pagination';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEye, faFilter, faMagnifyingGlass, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { onMounted, ref, watch } from 'vue';
-import { getData } from '@/helpers/api';
-import { nextPage, prevPage } from '@/helpers/pagination';
-import CreateDatabaseModalComp from '@/components/modals/database/CreateDatabaseModalComp.vue';
 
 library.add(faPlus, faEye, faPenToSquare, faTrash, faMagnifyingGlass, faFilter);
 
+// Variáveis reativas
 const databases: any = ref([]);
 const user: any = ref({});
 const isOpenViewModal = ref(false);
@@ -99,6 +100,14 @@ const filter = ref('');
 const page = ref(1);
 const limit = ref(8);
 
+// Funções
+const closeCreateModal = async () => {
+	isOpenCreateModal.value = !isOpenCreateModal.value;
+	const response = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
+	databases.value = response.data;
+};
+
+// HOOKS
 onMounted(async () => {
 	const response = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
 	user.value = response.user;

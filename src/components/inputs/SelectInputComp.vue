@@ -2,8 +2,8 @@
     <div class="select-container">
         <slot name="icon"></slot>
         <select  :required="isRequired" :disabled="isDisabled" :name="name" v-model="optionValue">
-            <option v-for="option in props.options" :value="option" :key="option">
-                {{ option }}
+            <option v-for="option in props.options" :value="option" :key="option._id">
+                {{ option.value }}
             </option>
         </select>
     </div>
@@ -31,6 +31,7 @@ const props = defineProps({
 });
 
 const optionValue = defineModel();
+
 </script>
 
 <style scoped>
@@ -39,7 +40,7 @@ select {
   border-radius: var(--border-radius);
   color: var(--color-text-input);
   background-color: var(--color-background-input);
-  padding: 0.3em 0.8em;
+  padding: 0.4em 0.4em;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,7 +70,7 @@ select:disabled {
 
 option {
     color: var(--color-heading);
-    padding: 0.3em 0.8em;
+    padding: 0.4em 0.4em;
 }
 
 option:focus {
@@ -80,7 +81,6 @@ option:focus {
 @media only screen and (max-width: 1024px) {
     select {
         font-size: 0.9em;
-        padding: 0.3em 0.7em;
     }
 
     .select-container {

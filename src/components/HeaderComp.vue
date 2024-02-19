@@ -1,62 +1,64 @@
 <template>
     <header :class="{ 'header-container': true, 'header-container-clicked': isClicked }">
-      <div class="header">
-        <div class="header-logo">
-          <router-link to="/" v-if="!isLogged">
-            <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
-          </router-link>
-          <router-link to="/databases" v-else>
-            <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
-          </router-link>
-        </div>
-        <div v-if="isSmallScreen && !isLogged" class="header-login-sandwich" @click="isClicked = !isClicked">
-          <font-awesome-icon icon="fa-solid fa-bars" :class="{ rotated: isClicked }"/>
-        </div>
-        <form v-if="(isSmallScreen && isClicked || !isSmallScreen) && !isLogged" class="header-login-form" @submit.prevent="login">
-          <div class="header-login-form-inputs">
-            <InputComp type="email" placeholder="E-mail" class="input-login" v-model="email" :is-required="true">
-              <template #icon>
-                <font-awesome-icon icon="fa-solid fa-user" />
-              </template>
-            </InputComp>
-  
-            <InputComp type="password" placeholder="Senha" class="input-login" v-model="password" :is-required="true">
-              <template #icon>
-                <font-awesome-icon icon="fa-solid fa-key" />
-              </template>
-            </InputComp>
-          </div>
-          <div class="header-login-form-btn">
-            <ButtonComp btn-type="submit" text="Login" class="btn-login">
-              <template #icon>
-                <font-awesome-icon icon="fa fa-arrow-right-to-bracket" />
-              </template>
-            </ButtonComp>
-  
-            <ButtonComp @click="goToRegister" text="Registrar" btn-class="btn-outline-primary" class="btn-login">
-              <template #icon>
-                <font-awesome-icon icon="fa-solid fa-user-plus" />
-              </template>
-            </ButtonComp>
-          </div>
+        <div class="header">
+            <div class="header-logo">
+                <router-link to="/" v-if="!isLogged">
+                    <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px" />
+                </router-link>
+                <router-link to="/databases" v-else>
+                    <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px" />
+                </router-link>
+            </div>
+            <div v-if="isSmallScreen && !isLogged" class="header-login-sandwich" @click="isClicked = !isClicked">
+                <font-awesome-icon icon="fa-solid fa-bars" :class="{ rotated: isClicked }" />
+            </div>
+            <form v-if="(isSmallScreen && isClicked || !isSmallScreen) && !isLogged" class="header-login-form"
+                @submit.prevent="login">
+                <div class="header-login-form-inputs">
+                    <InputComp type="email" placeholder="E-mail" class="input-login" v-model="email" :is-required="true">
+                        <template #icon>
+                            <font-awesome-icon icon="fa-solid fa-user" />
+                        </template>
+                    </InputComp>
 
-        </form>
-        <div v-if="isLogged" class="logged-menu-dropdown">
-            <ButtonDropdownComp :text="user.name">
-              <template #icon>
-                <font-awesome-icon icon="fa-solid fa-circle-user" />
-              </template>
-              <template #dropdownItens>
-                <li>
-                  Editar Perfil
-                </li>
-                <li @click="logout">
-                  <router-link to="/">Logout</router-link>
-                </li>
-              </template>
-            </ButtonDropdownComp>
+                    <InputComp type="password" placeholder="Senha" class="input-login" v-model="password"
+                        :is-required="true">
+                        <template #icon>
+                            <font-awesome-icon icon="fa-solid fa-key" />
+                        </template>
+                    </InputComp>
+                </div>
+                <div class="header-login-form-btn">
+                    <ButtonComp btn-type="submit" text="Login" class="btn-login">
+                        <template #icon>
+                            <font-awesome-icon icon="fa fa-arrow-right-to-bracket" />
+                        </template>
+                    </ButtonComp>
+
+                    <ButtonComp @click="goToRegister" text="Registrar" btn-class="btn-outline-primary" class="btn-login">
+                        <template #icon>
+                            <font-awesome-icon icon="fa-solid fa-user-plus" />
+                        </template>
+                    </ButtonComp>
+                </div>
+
+            </form>
+            <div v-if="isLogged" class="logged-menu-dropdown">
+                <ButtonDropdownComp :text="user.name">
+                    <template #icon>
+                        <font-awesome-icon icon="fa-solid fa-circle-user" />
+                    </template>
+                    <template #dropdownItens>
+                        <li>
+                            Editar Perfil
+                        </li>
+                        <li @click="logout">
+                            <router-link to="/">Logout</router-link>
+                        </li>
+                    </template>
+                </ButtonDropdownComp>
+            </div>
         </div>
-      </div>
     </header>
 </template>
 
@@ -65,8 +67,10 @@ import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
 import ButtonDropdownComp from './buttons/ButtonDropdownComp.vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faArrowRightToBracket, faUserPlus, faUser,
-   faKey, faBars, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import {
+    faArrowRightToBracket, faUserPlus, faUser,
+    faKey, faBars, faCircleUser
+} from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'vue-router';
 import { toastSuccess, toastError } from '@/helpers/toast-messages';
 import axios from 'axios';
@@ -87,47 +91,47 @@ const isLogged = ref(false);
 const user = ref();
 
 if (windowWidth.value < 720) {
-  isSmallScreen.value = true;
+    isSmallScreen.value = true;
 }
 
 // Funções
 const login = async () => {
-  try {
-    const response = await axios.post('http://localhost:3000/api/login', {
-      email: email.value,
-      password: password.value
-    });
+    try {
+        const response = await axios.post('http://localhost:3000/api/login', {
+            email: email.value,
+            password: password.value
+        });
 
-    const { accessToken } = response.data;
-    localStorage.setItem('token', accessToken);
-    isLogged.value = true;
-    user.value = await checkToken(accessToken);
+        const { accessToken } = response.data;
+        localStorage.setItem('token', accessToken);
+        isLogged.value = true;
+        user.value = await checkToken(accessToken);
 
-    await router.push('/databases');
-    toastSuccess('Login efetuado com sucesso!');
-  } catch (error: any) {
-    const messages = error.response.data.message;
+        await router.push('/databases');
+        toastSuccess('Login efetuado com sucesso!');
+    } catch (error: any) {
+        const messages = error.response.data.message;
 
-    if (Array.isArray(messages)) {
-      for (let message of messages) {
-        toastError(message);
-      }
-    } else {
-      toastError(messages);
+        if (Array.isArray(messages)) {
+            for (let message of messages) {
+                toastError(message);
+            }
+        } else {
+            toastError(messages);
+        }
     }
-  }
 }
 
 const logout = () => {
-  localStorage.removeItem('token');
-  isLogged.value = false;
-  email.value = '';
-  password.value = '';
-  toastSuccess('Logout efetuado com sucesso!');
+    localStorage.removeItem('token');
+    isLogged.value = false;
+    email.value = '';
+    password.value = '';
+    toastSuccess('Logout efetuado com sucesso!');
 }
 
 const goToRegister = () => {
-  router.push('/register');
+    router.push('/register');
 }
 
 const handleResize = () => {
@@ -136,34 +140,33 @@ const handleResize = () => {
 }
 
 onMounted(async () => {
-  window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
 
-  const token = localStorage.getItem('token');
-  user.value = await checkToken(token);
+    const token = localStorage.getItem('token');
+    user.value = await checkToken(token);
 
-  if (user.value) {
-    isLogged.value = true;
-    router.push('/databases');
-  }
+    if (user.value) {
+        isLogged.value = true;
+        router.push('/databases');
+    }
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
+    window.removeEventListener('resize', handleResize);
 })
 
 watch(windowWidth, (newWidth) => {
-  if (newWidth < 768) {
-    isSmallScreen.value = true;
-  } else {
-    isClicked.value = false;
-    isSmallScreen.value = false;
-  }
+    if (newWidth < 768) {
+        isSmallScreen.value = true;
+    } else {
+        isClicked.value = false;
+        isSmallScreen.value = false;
+    }
 });
 
 </script>
 
 <style scoped>
-
 .header-container {
     color: white;
     width: 100%;
@@ -175,7 +178,7 @@ watch(windowWidth, (newWidth) => {
 }
 
 .header-container-clicked {
-  height: 180px;
+    height: 180px;
 }
 
 .header {
@@ -214,52 +217,51 @@ watch(windowWidth, (newWidth) => {
 }
 
 .header-login-sandwich {
-  font-size: 1rem;
-  color: var(--color-text);
+    font-size: 1rem;
+    color: var(--color-text);
 }
 
 .header-login-sandwich:hover {
-  cursor: pointer;
-  color: var(--color-heading);
+    cursor: pointer;
+    color: var(--color-heading);
 }
 
 .input-login {
-  width: 100%;
+    width: 100%;
 }
 
 .btn-login {
-  width: 10px;
+    width: 10px;
 }
 
 .rotated {
-  transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 @media only screen and (max-width: 768px) {
 
-  .header {
-    gap: 1rem;
-    justify-content: space-around;
-  }
+    .header {
+        gap: 1rem;
+        justify-content: space-around;
+    }
 
-  .header-login-form {
-    flex-direction: column;
-    width: 70%;
-    justify-content: flex-start;
-    gap: 0.5rem;
-  }
+    .header-login-form {
+        flex-direction: column;
+        width: 70%;
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
 
-  .header-login-form-inputs {
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 60%;
-  }
+    .header-login-form-inputs {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 60%;
+    }
 
-  .header-login-form-btn {
-    gap: 1rem;
-    width: 60%;
-  }
+    .header-login-form-btn {
+        gap: 1rem;
+        width: 60%;
+    }
 
 }
-
 </style>

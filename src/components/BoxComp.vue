@@ -11,7 +11,7 @@
                 <slot name="inputs"></slot>
             </div>
         </div>
-        
+
         <div class="content">
             <slot name="content"></slot>
         </div>
@@ -85,8 +85,8 @@ const props = defineProps({
     }
 
     .title-button {
-       font-size: 0.9rem;
-       margin-top: 0.4rem;
+        font-size: 0.9rem;
+        margin-top: 0.4rem;
     }
 }
 
@@ -105,12 +105,11 @@ const props = defineProps({
     }
 
     .title-button {
-       width: 8%;
+        width: 8%;
     }
 
     .inputs {
         width: 50%;
     }
 }
-
 </style>
