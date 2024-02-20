@@ -52,7 +52,7 @@ import ModalComp from '../ModalComp.vue';
 import InputComp from '../../inputs/InputComp.vue';
 import ButtonComp from '../../buttons/ButtonComp.vue';
 import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { getData } from '@/helpers/api';
 
 const database: any = ref({

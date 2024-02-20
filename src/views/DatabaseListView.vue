@@ -3,8 +3,8 @@
 		<template #box-content>
 			<BoxComp title="Banco de imagens" class="container">
 				<template #button>
-					<ButtonComp v-if="user.role === 'admin'" btn-class="btn-primary" text="Novo" 
-					@click="isOpenCreateModal = !isOpenCreateModal">
+					<ButtonComp v-if="user.role === 'admin'" btn-class="btn-primary" text="Novo"
+						@click="isOpenCreateModal = !isOpenCreateModal">
 						<template #icon>
 							<font-awesome-icon icon="fa-solid fa-plus" />
 						</template>
@@ -49,7 +49,8 @@
 									<button aria-label="Visualizar" @click="openViewModal(database._id)">
 										<font-awesome-icon icon="fa-solid fa-eye" />
 									</button>
-									<button v-if="user.role === 'admin'" aria-label="Editar">
+									<button v-if="user.role === 'admin'" aria-label="Editar"
+										@click="openEditModal(database._id)">
 										<font-awesome-icon icon="fa-solid fa-pen-to-square" />
 									</button>
 									<button v-if="user.role === 'admin'" aria-label="Excluir">
@@ -61,20 +62,23 @@
 					</table>
 
 					<div class="buttons-container">
-						<ButtonComp btn-class="btn-primary" text="< Anterior" @click="page = prevPage(page)" 
-						v-if="page > 1"/>
+						<ButtonComp btn-class="btn-primary" text="< Anterior" @click="page = prevPage(page)"
+							v-if="page > 1" />
 						<ButtonComp btn-class="btn-primary" text="Anterior" v-else :isDisabled="true" />
 
-						<ButtonComp v-if="databases.length >= limit" btn-class="btn-primary" text="Próximo >" 
-						@click="page = nextPage(page, databases.length)" />
-						<ButtonComp v-else btn-class="btn-primary" text="Próximo" :isDisabled="true"/>
+						<ButtonComp v-if="databases.length >= limit" btn-class="btn-primary" text="Próximo >"
+							@click="page = nextPage(page, databases.length)" />
+						<ButtonComp v-else btn-class="btn-primary" text="Próximo" :isDisabled="true" />
 					</div>
 				</template>
 			</BoxComp>
 		</template>
 	</LoggedTemplateComp>
-	<CreateDatabaseModalComp :open="isOpenCreateModal" @close="closeCreateModal"/>
-	<ViewDatabaseModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal" :databaseId="databaseId"/>
+	<CreateDatabaseModalComp :open="isOpenCreateModal" @close="closeCreateModal" />
+	<ViewDatabaseModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal"
+		:databaseId="databaseId" />
+	<EditDatabaseModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal"
+		:databaseId="databaseId" />
 </template>
 
 <script setup lang="ts">
@@ -83,12 +87,13 @@ import LoggedTemplateComp from '@/components/LoggedTemplateComp.vue';
 import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
 import CreateDatabaseModalComp from '@/components/modals/database/CreateDatabaseModalComp.vue';
+import ViewDatabaseModalComp from '@/components/modals/database/ViewDatabaseModalComp.vue';
 import { getData } from '@/helpers/api';
 import { nextPage, prevPage } from '@/helpers/pagination';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEye, faFilter, faMagnifyingGlass, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { onMounted, ref, watch } from 'vue';
-import ViewDatabaseModalComp from '@/components/modals/database/ViewDatabaseModalComp.vue';
+import EditDatabaseModalComp from '@/components/modals/database/EditDatabaseModalComp.vue';
 
 library.add(faPlus, faEye, faPenToSquare, faTrash, faMagnifyingGlass, faFilter);
 
@@ -97,6 +102,7 @@ const databases: any = ref([]);
 const user: any = ref({});
 const isOpenViewModal = ref(false);
 const isOpenCreateModal = ref(false);
+const isOpenEditModal = ref(false);
 const search = ref('');
 const filter = ref('');
 const page = ref(1);
@@ -115,9 +121,21 @@ const openViewModal = (id: string) => {
 	databaseId.value = id;
 };
 
+const openEditModal = (id: string) => {
+	isOpenEditModal.value = !isOpenEditModal.value;
+	databaseId.value = id;
+};
+
 const closeViewModal = () => {
 	isOpenViewModal.value = !isOpenViewModal.value;
 	databaseId.value = '';
+};
+
+const closeEditModal = async () => {
+	isOpenEditModal.value = !isOpenEditModal.value;
+	databaseId.value = '';
+	const response = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
+	databases.value = response.data;
 };
 
 // HOOKS
@@ -155,7 +173,7 @@ watch([search, filter], async (newValues) => {
 		databases.value = response.data;
 	}
 
-	page.value=1;
+	page.value = 1;
 	return;
 });
 
