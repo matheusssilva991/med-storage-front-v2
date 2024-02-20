@@ -75,8 +75,8 @@
                     </div>
 
                     <div class="button-field">
-                        <ButtonComp btn-class="btn-secondary" text="Voltar" @click="goHome"></ButtonComp>
-                        <ButtonComp btn-class="btn-primary" text="Cadastrar" btn-type="submit"></ButtonComp>
+                        <ButtonComp btn-class="btn-secondary" text="Voltar" @click="goHome" id="return-register"></ButtonComp>
+                        <ButtonComp btn-class="btn-primary" text="Cadastrar" btn-type="submit" id="register-confirm"></ButtonComp>
                     </div>
                 </form>
             </template>
@@ -214,7 +214,7 @@ async function register() {
 }
 
 .input-field {
-    width: 48%;
+    width: 47%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

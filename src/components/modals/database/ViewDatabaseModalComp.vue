@@ -28,7 +28,7 @@
                 <div class="input-field">
                     <label for="description">Descrição *</label>
                     <TextAreaCompVue id="description" :isRequired="true" v-model="database.description" name="description"
-                        :max-length="maxLength" :cols="100" :rows="10" :is-readonly="true" />
+                        :max-length="maxLength" :cols="100" :rows="10" :is-disabled="true"/>
                 </div>
 
                 <div class="input-field">
@@ -63,7 +63,7 @@ const database: any = ref({
     imageQuality: '',
     url: ''
 });
-const maxLength = 2000;
+const maxLength = 1000;
 
 const props = defineProps({
     open: {
@@ -135,5 +135,21 @@ const close = () => {
 
 .button-field button {
     width: 5rem;
+}
+
+@media only screen and (max-width: 1024px) {
+    .form-container {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .form-container {
+        width: 300px;
+    }
+
+    .input-field {
+        width: 100%;
+    }
 }
 </style>

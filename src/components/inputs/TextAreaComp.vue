@@ -1,7 +1,7 @@
 <template>
     <div class="text-area-container">
         <slot name="icon"></slot>
-        <textarea :type="type" :readonly="isReadonly" :placeholder="placeholder" :cols="cols" :rows="rows"
+        <textarea :type="type" :placeholder="placeholder" :cols="cols" :rows="rows" :disabled="isDisabled"
         :name="name" :maxlength="maxLength" :required="isRequired" v-model="inputValue"></textarea>
     </div>
 </template>
@@ -21,7 +21,7 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    isReadonly: {
+    isDisabled: {
         type: Boolean,
         default: false
     },

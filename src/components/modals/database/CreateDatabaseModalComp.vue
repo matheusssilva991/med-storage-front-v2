@@ -89,7 +89,7 @@ const imageQuality = ref("");
 const url = ref("");
 const examTypes = ref([]);
 const imageTypes = ref([]);
-const maxLength = 2000;
+const maxLength = 1000;
 
 const imageQualityArray = computed(() => {
     const numberStringArray = imageQuality.value.split(',');
@@ -233,5 +233,21 @@ const close = () => {
 
 .button-field button {
     width: 5rem;
+}
+
+@media only screen and (max-width: 1024px) {
+    .form-container {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .form-container {
+        width: 300px;
+    }
+
+    .input-field {
+        width: 100%;
+    }
 }
 </style>

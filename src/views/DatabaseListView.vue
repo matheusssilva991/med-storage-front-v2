@@ -34,7 +34,7 @@
 					<table class="table" border="0">
 						<thead>
 							<tr>
-								<th>Nome</th>
+								<th>Nome do banco</th>
 								<th>Tipo de exame</th>
 								<th>Quantidade de imagens</th>
 								<th>Ações</th>
@@ -44,7 +44,7 @@
 							<tr v-for="database in databases" :key="database._id">
 								<td>{{ database.name }}</td>
 								<td>{{ database.examType.name }}</td>
-								<td>{{ database.images.length }} imagens</td>
+								<td>{{ database.images.length }}</td>
 								<td class="table-actions">
 									<button aria-label="Visualizar" @click="openViewModal(database._id)">
 										<font-awesome-icon icon="fa-solid fa-eye" />
@@ -100,7 +100,7 @@ const isOpenCreateModal = ref(false);
 const search = ref('');
 const filter = ref('');
 const page = ref(1);
-const limit = ref(8);
+const limit = ref(10);
 const databaseId = ref('');
 
 // Funções

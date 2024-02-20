@@ -39,7 +39,7 @@ const props = defineProps({
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem 1.3rem;
+    padding: 2rem;
 }
 
 .header {

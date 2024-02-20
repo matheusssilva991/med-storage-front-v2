@@ -85,7 +85,7 @@ const close = () => {
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
-	gap: 0.5rem;
+	gap: 1.5rem;
 	padding-bottom: 2rem;
 	border-bottom: 1px solid var(--color-border-modal);
 }
@@ -100,9 +100,10 @@ const close = () => {
 }
 
 .modal-header .title {
-	max-width: 500px;
+	max-width: 400px;
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 }
 
 .modal-header button {
@@ -147,5 +148,25 @@ const close = () => {
 .drop-in-leave-to {
   opacity: 0;
   transform: translate(0, -50px);
+}
+
+@media only screen and (max-width: 1024px) {
+	.modal-header .title {
+		max-width: 350px;
+	}
+
+	.modal-header h1 {
+		font-size: 1.5rem;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+    .modal-header .title {
+		max-width: 200px;
+	}
+
+	.modal-header h1 {
+		font-size: 1.4rem;
+	}
 }
 </style>
