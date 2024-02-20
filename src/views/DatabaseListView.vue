@@ -9,7 +9,8 @@
 							<font-awesome-icon icon="fa-solid fa-plus" />
 						</template>
 					</ButtonComp>
-					<ButtonComp v-else btn-class="btn-primary" text="Solicitar">
+					<ButtonComp v-else btn-class="btn-primary" text="Solicitar"
+						@click="isOpenCreateSolicitationModal = !isOpenCreateSolicitationModal">
 						<template #icon>
 							<font-awesome-icon icon="fa-solid fa-plus" />
 						</template>
@@ -75,6 +76,7 @@
 		</template>
 	</LoggedTemplateComp>
 	<CreateDatabaseModalComp :open="isOpenCreateModal" @close="closeCreateModal" />
+	<CreateDatabaseSolicitationModalComp :open="isOpenCreateSolicitationModal" @close="closeCreateSolicitationModal" />
 	<ViewDatabaseModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal"
 		:databaseId="databaseId" />
 	<EditDatabaseModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal"
@@ -94,6 +96,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEye, faFilter, faMagnifyingGlass, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { onMounted, ref, watch } from 'vue';
 import EditDatabaseModalComp from '@/components/modals/database/EditDatabaseModalComp.vue';
+import CreateDatabaseSolicitationModalComp from '@/components/modals/database/CreateDatabaseSolicitationModalComp.vue';
 
 library.add(faPlus, faEye, faPenToSquare, faTrash, faMagnifyingGlass, faFilter);
 
@@ -103,6 +106,7 @@ const user: any = ref({});
 const isOpenViewModal = ref(false);
 const isOpenCreateModal = ref(false);
 const isOpenEditModal = ref(false);
+const isOpenCreateSolicitationModal = ref(false);
 const search = ref('');
 const filter = ref('');
 const page = ref(1);
@@ -114,6 +118,10 @@ const closeCreateModal = async () => {
 	isOpenCreateModal.value = !isOpenCreateModal.value;
 	const response = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
 	databases.value = response.data;
+};
+
+const closeCreateSolicitationModal = () => {
+	isOpenCreateSolicitationModal.value = !isOpenCreateSolicitationModal.value;
 };
 
 const openViewModal = (id: string) => {
