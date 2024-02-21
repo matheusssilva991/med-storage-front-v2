@@ -90,6 +90,7 @@ const isSmallScreen = ref(false);
 const isClicked = ref(false);
 const isLogged = ref(false);
 const user = ref();
+const currentRoute = ref(router.currentRoute.value.path);
 
 if (windowWidth.value < 720) {
     isSmallScreen.value = true;
@@ -148,12 +149,20 @@ onMounted(async () => {
 
     if (user.value) {
         isLogged.value = true;
-        router.push('/databases');
+        currentRoute.value = localStorage.getItem('currentRoute') || '/databases';
+        
+
+        if (currentRoute.value === '/' || currentRoute.value === '/register') {
+            await router.push('/databases');
+        } else {
+            await router.push(currentRoute.value);
+        }
     }
 })
 
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
+    localStorage.removeItem('currentRoute');
 })
 
 watch(windowWidth, (newWidth) => {
@@ -164,6 +173,11 @@ watch(windowWidth, (newWidth) => {
         isSmallScreen.value = false;
     }
 });
+
+watch(router.currentRoute, (newRoute) => {
+    currentRoute.value = newRoute.path;
+    localStorage.setItem('currentRoute', newRoute.path);
+})
 
 </script>
 

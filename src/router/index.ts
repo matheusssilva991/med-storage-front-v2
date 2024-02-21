@@ -21,6 +21,16 @@ const router = createRouter({
       path: '/databases',
       name: 'databases',
       component: () => import('../views/DatabaseListView.vue')
+    },
+    {
+      path: '/image-types',
+      name: 'image-types',
+      component: () => import('../views/ImageTypeListView.vue')
+    },
+    {
+      path: '/solicitations',
+      name: 'solicitations',
+      component: () => import('../views/SolicitationListView.vue')
     }
   ]
 })

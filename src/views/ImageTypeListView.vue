@@ -1,7 +1,7 @@
 <template>
 	<LoggedTemplateComp>
 		<template #box-content>
-			<BoxComp title="Bancos de imagens" class="container">
+			<BoxComp title="Tipo de imagens" class="container">
 				<template #button>
 					<ButtonComp v-if="user.role === 'admin'" btn-class="btn-primary" text="Novo"
 						@click="isOpenCreateModal = !isOpenCreateModal">
