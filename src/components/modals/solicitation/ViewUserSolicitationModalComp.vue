@@ -132,7 +132,7 @@ const close = () => {
 }
 
 .button-field button {
-    width: 5rem;
+    width: fit-content;
 }
 
 @media only screen and (max-width: 1024px) {

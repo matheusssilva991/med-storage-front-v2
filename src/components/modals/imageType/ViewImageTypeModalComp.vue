@@ -53,7 +53,7 @@ const name = ref("");
 const description = ref("");
 const requiredData = ref("");
 const optionalData = ref("");
-const maxLength = 1000;
+const maxLength = 2000;
 const metadataLength = 1000000000000000;
 
 const props = defineProps({
@@ -120,7 +120,7 @@ const close = () => {
 }
 
 .button-field button {
-    width: 5rem;
+    width: fit-content;
 }
 
 @media only screen and (max-width: 1024px) {

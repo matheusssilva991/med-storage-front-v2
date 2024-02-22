@@ -63,7 +63,7 @@ const database: any = ref({
     imageQuality: '',
     url: ''
 });
-const maxLength = 1000;
+const maxLength = 2000;
 
 const props = defineProps({
     open: {
@@ -134,7 +134,7 @@ const close = () => {
 }
 
 .button-field button {
-    width: 5rem;
+    width: fit-content;
 }
 
 @media only screen and (max-width: 1024px) {

@@ -67,8 +67,8 @@
 	<CreateImageTypeModalComp :open="isOpenCreateModal" @close="closeCreateModal" />
 	<ViewImageTypeModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal"
 		:imageTypeId="imageTypeId" />
-	<EditDatabaseModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal"
-		:databaseId="imageTypeId" />
+	<EditImageTypeModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal"
+		:imageTypeId="imageTypeId" />
 	<ConfirmDialogComp v-if="isOpenDeleteConfirmDialog" :open="isOpenDeleteConfirmDialog" title="Confirmar"
         @close="closeDeleteConfirmDialog"
         :reject-function="closeDeleteConfirmDialog"
@@ -88,7 +88,7 @@ import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import ConfirmDialogComp from '@/components/confirmDialog/ConfirmDialogComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
 import CreateImageTypeModalComp from '@/components/modals/imageType/CreateImageTypeModalComp.vue';
-import EditDatabaseModalComp from '@/components/modals/database/EditDatabaseModalComp.vue';
+import EditImageTypeModalComp from '@/components/modals/imageType/EditImageTypeModalComp.vue';
 import ViewImageTypeModalComp from '@/components/modals/imageType/ViewImageTypeModalComp.vue';
 import { getData } from '@/helpers/api';
 import { nextPage, prevPage } from '@/helpers/pagination';

@@ -1,46 +1,49 @@
 <template>
     <form @submit.prevent="onSubmit">
-        <ModalComp :open="open" title="Cadastrar tipo de imagem" @close="close">
+        <ModalComp :open="open" title="Editar tipo de imagem" @close="close">
             <template #content>
                 <div class="form-container">
                     <div class="input-field">
                         <label for="name">Nome *</label>
                         <InputComp placeholder="Informe o nome do tipo de imagem" id="name" :isRequired="true" v-model="name"
-                            name="name" />
+                        name="name" />
                         <ul class="input-field-error" v-if="errors?.name">
                             <li v-for="error in errors?.name?._errors"> {{ error }}</li>
                         </ul>
                     </div>
-
+    
                     <div class="input-field">
                         <label for="description">Descrição *</label>
                         <TextAreaCompVue id="description" :isRequired="true" v-model="description" name="description"
-                        :max-length="maxLength" :cols="100" :rows="7" placeholder="Informe uma breve descrição do tipo de imagem"/>
+                            :max-length="maxLength" :cols="100" :rows="10"
+                            placeholder="Informe uma breve descrição do tipo de imagem" />
                         <ul class="input-field-error" v-if="errors?.description">
                             <li v-for="error in errors?.description?._errors"> {{ error }}</li>
                         </ul>
                     </div>
-
+    
                     <div class="input-field">
-                        <label for="url">Dados requeridos *</label>
+                        <label for="url">Dados requeridos</label>
                         <TextAreaCompVue id="requiredData" :isRequired="true" v-model="requiredData" name="requiredData"
-                        :max-length="metadataLength" :cols="100" :rows="5" placeholder="Informe os metadados requeridos separados por virgula"/>
+                            :max-length="metadataLength" :cols="100" :rows="5"
+                            placeholder="Informe os metadados requeridos separados por virgula"/>
                         <ul class="input-field-error" v-if="errors?.requiredData">
                             <li v-for="error in errors?.requiredData?._errors"> {{ error }}</li>
                         </ul>
                     </div>
-
+    
                     <div class="input-field">
                         <label for="url">Dados opcionais</label>
                         <TextAreaCompVue id="optionalData" :isRequired="true" v-model="optionalData" name="optionalData"
-                        :max-length="metadataLength" :cols="100" :rows="7" placeholder="Informe os metadados opcionais separados por virgula"/>
+                            :max-length="metadataLength" :cols="100" :rows="5"
+                            placeholder="Informe os metadados requeridos separados por virgula"/>
                         <ul class="input-field-error" v-if="errors?.optionalData">
                             <li v-for="error in errors?.optionalData?._errors"> {{ error }}</li>
                         </ul>
                     </div>
                 </div>
             </template>
-
+    
             <template #footer>
                 <div class="button-field">
                     <ButtonComp btn-class="btn-secondary" text="Cancelar" @click="close" />
@@ -52,14 +55,15 @@
 </template>
 
 <script setup lang="ts">
-import ModalComp from '../ModalComp.vue';
+import { getData } from '@/helpers/api';
+import { toastError, toastSuccess } from '@/helpers/toast-messages';
 import axios from 'axios';
-import InputComp from '../../inputs/InputComp.vue';
-import ButtonComp from '../../buttons/ButtonComp.vue';
-import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import * as z from 'zod';
-import { toastSuccess, toastError } from '../../../helpers/toast-messages';
+import ButtonComp from '../../buttons/ButtonComp.vue';
+import InputComp from '../../inputs/InputComp.vue';
+import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
+import ModalComp from '../ModalComp.vue';
 
 const name = ref("");
 const description = ref("");
@@ -67,6 +71,17 @@ const requiredData = ref("");
 const optionalData = ref("");
 const maxLength = 2000;
 const metadataLength = 1000000000000000;
+
+const props = defineProps({
+    open: {
+        type: Boolean,
+        required: true
+    },
+    imageTypeId: {
+        type: String,
+        required: true
+    }
+});
 
 const formSchema = z.object({
     name: z.string().min(1, { message: 'O campo nome é requerido.' }),
@@ -82,11 +97,12 @@ const formSchema = z.object({
 type formSchema = z.infer<typeof formSchema>;
 const errors = ref<z.ZodFormattedError<formSchema> | null>(null);
 
-defineProps({
-    open: {
-        type: Boolean,
-        required: true
-    }
+onMounted(async () => {
+    const response = await getData(`http://localhost:3000/api/image-type/${props.imageTypeId}`);
+    name.value = response.data.name;
+    description.value = response.data.description;
+    requiredData.value = response.data.requiredData.join(',');
+    optionalData.value = response.data.optionalData.join(',');
 });
 
 const onSubmit = async () => {
@@ -100,16 +116,16 @@ const onSubmit = async () => {
         errors.value = valid.error.format();
     } else {
         errors.value = null;
-        await register();
+        await update();
     }
 };
 
-const register = async () => {
+const update = async () => {
     try {
         const requiredDataArray = requiredData.value.split(',');
         const optionalDataArray = optionalData.value.split(',');
 
-        await axios.post('http://localhost:3000/api/image-type', {
+        await axios.patch(`http://localhost:3000/api/image-type/${props.imageTypeId}`, {
             name: name.value,
             description: description.value,
             requiredData: requiredDataArray,
@@ -120,7 +136,7 @@ const register = async () => {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         });
-        toastSuccess('Tipo de imagem cadastrado com sucesso!');
+        toastSuccess('Tipo de imagem atualizado com sucesso!');
         close();
     } catch (error: any) {
         const messages = error?.response?.data?.message;
@@ -134,6 +150,7 @@ const register = async () => {
         }
     }
 };
+
 
 const emit = defineEmits(["close"]);
 
