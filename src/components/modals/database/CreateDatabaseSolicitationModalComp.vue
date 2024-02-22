@@ -4,7 +4,7 @@
             <template #content>
                 <div class="form-container">
                     <div class="input-field">
-                        <label for="name">Name *</label>
+                        <label for="name">Nome *</label>
                         <InputComp placeholder="Informe o nome do banco" id="name" :isRequired="true" v-model="name"
                             name="name" />
                         <ul class="input-field-error" v-if="errors?.name">

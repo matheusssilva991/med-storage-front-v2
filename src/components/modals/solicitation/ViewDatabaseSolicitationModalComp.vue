@@ -3,7 +3,7 @@
         <template #content>
             <div class="form-container">
                 <div class="input-field">
-                    <label for="name">Name *</label>
+                    <label for="name">Nome *</label>
                     <InputComp id="name" :isRequired="true" :is-disabled="true" v-model="database.name" name="name"/>
                 </div>
 
@@ -41,7 +41,7 @@
 
         <template #footer>
             <div class="button-field">
-                <ButtonComp btn-class="btn-secondary" text="Voltar" @click="close" />
+                <ButtonComp btn-class="btn-secondary" text="Fechar" @click="close" />
             </div>
         </template>
     </ModalComp>

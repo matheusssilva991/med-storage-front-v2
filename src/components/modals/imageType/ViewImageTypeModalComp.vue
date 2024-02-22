@@ -1,39 +1,33 @@
 <template>
-    <ModalComp :open="open" title="Banco de imagens" @close="close">
+    <ModalComp :open="open" title="Tipo de imagem" @close="close">
         <template #content>
             <div class="form-container">
                 <div class="input-field">
                     <label for="name">Nome *</label>
-                    <InputComp id="name" :isRequired="true" :is-disabled="true" v-model="database.name" name="name"/>
-                </div>
-
-                <div class="input-field">
-                    <label for="examType">Tipo de exame*</label>
-                    <InputComp id="examType" :isRequired="true" :is-disabled="true" v-model="database.examType.name"
-                        name="examType"/>
-                </div>
-
-                <div class="input-field">
-                    <label for="imageType">Tipo de imagem *</label>
-                    <InputComp id="imageType" :isRequired="true" v-model="database.imageType.name" :is-disabled="true"
-                        name="imageType" />
-                </div>
-
-                <div class="input-field">
-                    <label for="imageType">Qualidade das imagens *</label>
-                    <InputComp id="imageQuality" :isRequired="true" v-model="database.imageQuality"
-                        name="imageQuality" :is-disabled="true" />
+                    <InputComp placeholder="Informe o nome do tipo de imagem" id="name" :isRequired="true" v-model="name"
+                        :isDisabled="true" name="name" />
                 </div>
 
                 <div class="input-field">
                     <label for="description">Descrição *</label>
-                    <TextAreaCompVue id="description" :isRequired="true" v-model="database.description" name="description"
-                        :max-length="maxLength" :cols="100" :rows="10" :is-disabled="true"/>
+                    <TextAreaCompVue id="description" :isRequired="true" v-model="description" name="description"
+                        :max-lengt="maxLength" :cols="100" :rows="10"
+                        placeholder="Informe uma breve descrição do tipo de imagem" :isDisabled="true" />
                 </div>
 
                 <div class="input-field">
-                    <label for="url">Link do banco</label>
-                    <InputComp id="url" :isRequired="false" v-model="database.url" name="url"
+                    <label for="url">Dados requeridos</label>
+                    <TextAreaCompVue id="requiredData" :isRequired="true" v-model="requiredData" name="requiredData"
+                        :max-length="metadataLength" :cols="100" :rows="5"
+                        placeholder="Informe os metadados requeridos separados por virgula"
+                        :is-disabled="true" />
+                </div>
+
+                <div class="input-field">
+                    <label for="url">Dados opcionais</label>
+                    <TextAreaCompVue id="optionalData" :isRequired="true" v-model="optionalData" name="optionalData"
+                        :max-length="metadataLength" :cols="100" :rows="5"
+                        placeholder="Informe os metadados requeridos separados por virgula"
                         :is-disabled="true" />
                 </div>
             </div>
@@ -55,31 +49,31 @@ import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
 import { ref, onMounted } from 'vue';
 import { getData } from '@/helpers/api';
 
-const database: any = ref({
-    name: '',
-    examType: '',
-    imageType: '',
-    description: '',
-    imageQuality: '',
-    url: ''
-});
+const name = ref("");
+const description = ref("");
+const requiredData = ref("");
+const optionalData = ref("");
 const maxLength = 1000;
+const metadataLength = 1000000000000000;
 
 const props = defineProps({
     open: {
         type: Boolean,
         required: true
     },
-    databaseId: {
+    imageTypeId: {
         type: String,
         required: true
     }
 });
 
 onMounted(async () => {
-    if (!props.open) return;
-    const response = await getData(`http://localhost:3000/api/database/${props.databaseId}`);
-    database.value = response.data;
+    const response = await getData(`http://localhost:3000/api/image-type/${props.imageTypeId}`);
+    console.log(response);
+    name.value = response.data.name;
+    description.value = response.data.description;
+    requiredData.value = response.data.requiredData;
+    optionalData.value = response.data.optionalData;
 });
 
 const emit = defineEmits(["close"]);
@@ -101,16 +95,8 @@ const close = () => {
     gap: 1.5rem;
 }
 
-.form-container div:nth-child(5) {
-    width: 100%;
-}
-
-.form-container div:nth-child(6) {
-    width: 100%;
-}
-
 .input-field {
-    width: 47%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -41,7 +41,7 @@
 
         <template #footer>
             <div class="button-field">
-                <ButtonComp btn-class="btn-secondary" text="Voltar" @click="close" />
+                <ButtonComp btn-class="btn-secondary" text="Fechar" @click="close" />
             </div>
         </template>
     </ModalComp>
