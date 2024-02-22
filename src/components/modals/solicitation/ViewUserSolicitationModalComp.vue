@@ -1,40 +1,40 @@
 <template>
-    <ModalComp :open="open" title="Banco de imagens" @close="close">
+    <ModalComp :open="open" title="Solicitação de usuário" @close="close">
         <template #content>
             <div class="form-container">
                 <div class="input-field">
-                    <label for="name">Name *</label>
-                    <InputComp id="name" :isRequired="true" :is-disabled="true" v-model="database.name" name="name"/>
+                    <label for="name">Nome</label>
+                    <InputComp id="name" :isRequired="true" :is-disabled="true" v-model="user.name" name="name"/>
                 </div>
 
                 <div class="input-field">
-                    <label for="examType">Tipo de exame*</label>
-                    <InputComp id="examType" :isRequired="true" :is-disabled="true" v-model="database.examType.name"
-                        name="examType"/>
+                    <label for="email">Email</label>
+                    <InputComp id="email" :isRequired="true" :is-disabled="true" v-model="user.email"
+                        name="email"/>
                 </div>
 
                 <div class="input-field">
-                    <label for="imageType">Tipo de imagem *</label>
-                    <InputComp id="imageType" :isRequired="true" v-model="database.imageType.name" :is-disabled="true"
-                        name="imageType" />
+                    <label for="institution">Instituição</label>
+                    <InputComp id="institution" :isRequired="true" :is-disabled="true" v-model="user.institution"
+                        name="institution"/>
                 </div>
 
                 <div class="input-field">
-                    <label for="imageType">Qualidade das imagens *</label>
-                    <InputComp id="imageQuality" :isRequired="true" v-model="database.imageQuality"
-                        name="imageQuality" :is-disabled="true" />
+                    <label for="country">País</label>
+                    <InputComp id="country" :isRequired="true" :is-disabled="true" v-model="user.country"
+                        name="country"/>
                 </div>
 
                 <div class="input-field">
-                    <label for="description">Descrição *</label>
-                    <TextAreaCompVue id="description" :isRequired="true" v-model="database.description" name="description"
-                        :max-length="maxLength" :cols="100" :rows="10" :is-disabled="true"/>
+                    <label for="city">Cidade</label>
+                    <InputComp id="city" :isRequired="true" :is-disabled="true" v-model="user.city"
+                        name="city"/>
                 </div>
 
                 <div class="input-field">
-                    <label for="url">Link do banco</label>
-                    <InputComp id="url" :isRequired="false" v-model="database.url" name="url"
-                        :is-disabled="true" />
+                    <label for="lattes">Lattes</label>
+                    <InputComp id="lattes" :isRequired="true" :is-disabled="true" v-model="user.lattes"
+                        name="lattes"/>
                 </div>
             </div>
         </template>
@@ -51,26 +51,24 @@
 import ModalComp from '../ModalComp.vue';
 import InputComp from '../../inputs/InputComp.vue';
 import ButtonComp from '../../buttons/ButtonComp.vue';
-import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
 import { ref, onMounted } from 'vue';
-import { getData } from '@/helpers/api';
+import { getData } from '../../../helpers/api';
 
-const database: any = ref({
+const user = ref({
     name: '',
-    examType: '',
-    imageType: '',
-    description: '',
-    imageQuality: '',
-    url: ''
+    email: '',
+    institution: '',
+    city: '',
+    country: '',
+    lattes: ''
 });
-const maxLength = 1000;
 
 const props = defineProps({
     open: {
         type: Boolean,
         required: true
     },
-    databaseId: {
+    solicitationId: {
         type: String,
         required: true
     }
@@ -78,8 +76,8 @@ const props = defineProps({
 
 onMounted(async () => {
     if (!props.open) return;
-    const response = await getData(`http://localhost:3000/api/database/${props.databaseId}`);
-    database.value = response.data;
+    const response = await getData(`http://localhost:3000/api/solicitation/${props.solicitationId}`);
+    user.value = response.data.data;
 });
 
 const emit = defineEmits(["close"]);
@@ -101,11 +99,11 @@ const close = () => {
     gap: 1.5rem;
 }
 
-.form-container div:nth-child(5) {
+.form-container div:nth-child(3){
     width: 100%;
 }
 
-.form-container div:nth-child(6) {
+.form-container div:nth-child(6){
     width: 100%;
 }
 

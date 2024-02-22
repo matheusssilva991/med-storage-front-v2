@@ -1,5 +1,5 @@
 <template>
-    <ModalComp :open="open" title="Banco de imagens" @close="close">
+    <ModalComp :open="open" title="Solicitação de banco de imagens" @close="close">
         <template #content>
             <div class="form-container">
                 <div class="input-field">
@@ -70,7 +70,7 @@ const props = defineProps({
         type: Boolean,
         required: true
     },
-    databaseId: {
+    solicitationId: {
         type: String,
         required: true
     }
@@ -78,8 +78,14 @@ const props = defineProps({
 
 onMounted(async () => {
     if (!props.open) return;
-    const response = await getData(`http://localhost:3000/api/database/${props.databaseId}`);
-    database.value = response.data;
+    const response = await getData(`http://localhost:3000/api/solicitation/${props.solicitationId}`);
+    database.value = response.data.data;
+
+    const examTypeResponse = await getData(`http://localhost:3000/api/exam-type/${database.value.examType}`);
+    database.value.examType = examTypeResponse.data;
+
+    const imageTypeResponse = await getData(`http://localhost:3000/api/image-type/${database.value.imageType}`);
+    database.value.imageType = imageTypeResponse.data;
 });
 
 const emit = defineEmits(["close"]);

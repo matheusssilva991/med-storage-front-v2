@@ -32,7 +32,12 @@
                                 <td>{{ solicitation.status }}</td>
                                 <td>{{ solicitation.type }}</td>
                                 <td class="table-actions">
-                                    <button aria-label="Visualizar" @click="openViewModal(solicitation._id)">
+                                    <button  v-if="solicitation.type ==='Novo usuário'" aria-label="Visualizar"
+                                     @click="openViewUserModal(solicitation._id)">
+                                        <font-awesome-icon icon="fa-solid fa-eye" />
+                                    </button>
+                                    <button v-else aria-label="Visualizar"
+                                     @click="openViewDatabaseModal(solicitation._id)">
                                         <font-awesome-icon icon="fa-solid fa-eye" />
                                     </button>
                                     <button  v-if="solicitation.status === 'Pendente' " aria-label="Excluir">
@@ -59,8 +64,10 @@
             </BoxComp>
         </template>
     </LoggedTemplateComp>
-    <ViewDatabaseModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal"
-        :databaseId="solicitationId" />
+    <ViewUserSolicitationModalComp v-if="isOpenViewUserModal" :open="isOpenViewUserModal" @close="closeViewUserModal"
+        :solicitationId="solicitationId" />
+    <ViewDatabaseSolicitationModalComp v-if="isOpenViewDatabaseModal" :open="isOpenViewDatabaseModal" @close="closeViewDatabaseModal"
+        :solicitationId="solicitationId" />
 </template>
 
 <script setup lang="ts">
@@ -69,19 +76,21 @@ import LoggedTemplateComp from '@/components/LoggedTemplateComp.vue';
 import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
 import SelectInputComp from '@/components/inputs/SelectInputComp.vue';
-import ViewDatabaseModalComp from '@/components/modals/database/ViewDatabaseModalComp.vue';
+import ViewDatabaseSolicitationModalComp from '@/components/modals/solicitation/ViewDatabaseSolicitationModalComp.vue';
+import ViewUserSolicitationModalComp from '@/components/modals/solicitation/ViewUserSolicitationModalComp.vue';
 import { getData } from '@/helpers/api';
 import { nextPage, prevPage } from '@/helpers/pagination';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEye, faFilter, faMagnifyingGlass, faPenToSquare, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { onMounted, ref, watch, computed } from 'vue';
+import { faCheck, faEye, faFilter, faMagnifyingGlass, faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { computed, onMounted, ref, watch } from 'vue';
 
 library.add(faEye, faPenToSquare, faMagnifyingGlass, faFilter, faCheck, faXmark);
 
 // Variáveis reativas
 const solicitations: any = ref([]);
 const user: any = ref({});
-const isOpenViewModal = ref(false);
+const isOpenViewUserModal = ref(false);
+const isOpenViewDatabaseModal = ref(false);
 const search = ref('');
 const filter = ref();
 const page = ref(1);
@@ -94,13 +103,23 @@ const optionTypes = ref([
     { value: 'Rejeitada', _id: '3' }]);
 
 // Funções
-const openViewModal = (id: string) => {
-    isOpenViewModal.value = !isOpenViewModal.value;
+const openViewUserModal = (id: string) => {
+    isOpenViewUserModal.value = !isOpenViewUserModal.value;
     solicitationId.value = id;
 };
 
-const closeViewModal = () => {
-    isOpenViewModal.value = !isOpenViewModal.value;
+const closeViewUserModal = () => {
+    isOpenViewUserModal.value = !isOpenViewUserModal.value;
+    solicitationId.value = '';
+};
+
+const openViewDatabaseModal = (id: string) => {
+    isOpenViewDatabaseModal.value = !isOpenViewDatabaseModal.value;
+    solicitationId.value = id;
+};
+
+const closeViewDatabaseModal = () => {
+    isOpenViewDatabaseModal.value = !isOpenViewDatabaseModal.value;
     solicitationId.value = '';
 };
 
