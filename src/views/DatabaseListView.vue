@@ -54,7 +54,8 @@
 										@click="openEditModal(database._id)">
 										<font-awesome-icon icon="fa-solid fa-pen-to-square" />
 									</button>
-									<button v-if="user.role === 'admin'" aria-label="Excluir">
+									<button v-if="user.role === 'admin'" aria-label="Excluir"
+									@click="openDeleteConfirmDialog(database._id)">
 										<font-awesome-icon icon="fa-solid fa-trash" />
 									</button>
 								</td>
@@ -81,24 +82,37 @@
 		:databaseId="databaseId" />
 	<EditDatabaseModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal"
 		:databaseId="databaseId" />
+	<ConfirmDialogComp v-if="isOpenDeleteConfirmDialog" :open="isOpenDeleteConfirmDialog" title="Confirmar"
+        @close="closeDeleteConfirmDialog"
+        :reject-function="closeDeleteConfirmDialog"
+        :accept-function="deleteDatabase"
+        message="Deseja realmente excluir esse banco?"
+        accept-class="btn-danger">
+        <template #icon>
+            <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
+        </template>
+    </ConfirmDialogComp>
 </template>
 
 <script setup lang="ts">
 import BoxComp from '@/components/BoxComp.vue';
 import LoggedTemplateComp from '@/components/LoggedTemplateComp.vue';
 import ButtonComp from '@/components/buttons/ButtonComp.vue';
+import ConfirmDialogComp from '@/components/confirmDialog/ConfirmDialogComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
 import CreateDatabaseModalComp from '@/components/modals/database/CreateDatabaseModalComp.vue';
+import CreateDatabaseSolicitationModalComp from '@/components/modals/database/CreateDatabaseSolicitationModalComp.vue';
+import EditDatabaseModalComp from '@/components/modals/database/EditDatabaseModalComp.vue';
 import ViewDatabaseModalComp from '@/components/modals/database/ViewDatabaseModalComp.vue';
 import { getData } from '@/helpers/api';
 import { nextPage, prevPage } from '@/helpers/pagination';
+import { toastError } from '@/helpers/toast-messages';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEye, faFilter, faMagnifyingGlass, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation, faEye, faFilter, faMagnifyingGlass, faPenToSquare, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import { onMounted, ref, watch } from 'vue';
-import EditDatabaseModalComp from '@/components/modals/database/EditDatabaseModalComp.vue';
-import CreateDatabaseSolicitationModalComp from '@/components/modals/database/CreateDatabaseSolicitationModalComp.vue';
 
-library.add(faPlus, faEye, faPenToSquare, faTrash, faMagnifyingGlass, faFilter);
+library.add(faPlus, faEye, faPenToSquare, faTrash, faMagnifyingGlass, faFilter, faCircleExclamation);
 
 // Variáveis reativas
 const databases: any = ref([]);
@@ -107,6 +121,7 @@ const isOpenViewModal = ref(false);
 const isOpenCreateModal = ref(false);
 const isOpenEditModal = ref(false);
 const isOpenCreateSolicitationModal = ref(false);
+const isOpenDeleteConfirmDialog = ref(false);
 const search = ref('');
 const filter = ref('');
 const page = ref(1);
@@ -144,6 +159,39 @@ const closeEditModal = async () => {
 	databaseId.value = '';
 	const response = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
 	databases.value = response.data;
+};
+
+const openDeleteConfirmDialog = (id: string) => {
+	isOpenDeleteConfirmDialog.value = !isOpenDeleteConfirmDialog.value;
+	databaseId.value = id;
+};
+
+const closeDeleteConfirmDialog = () => {
+	isOpenDeleteConfirmDialog.value = !isOpenDeleteConfirmDialog.value;
+	databaseId.value = '';
+};
+
+const deleteDatabase = async () => {
+	try {
+		const response = await axios.delete(`http://localhost:3000/api/database/${databaseId.value}`, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem('token')}`
+			}
+		});
+		const databasesResponse = await getData(`http://localhost:3000/api/databases?page=${page.value}&limit=${limit.value}`);
+		databases.value = databasesResponse.data;
+		isOpenDeleteConfirmDialog.value = !isOpenDeleteConfirmDialog.value;
+	} catch (error: any) {
+		const messages = error.response.data.message;
+
+		if (Array.isArray(messages)) {
+			for (let message of messages) {
+				toastError(message);
+			}
+		} else {
+			toastError(messages);
+		}
+	}
 };
 
 // HOOKS
