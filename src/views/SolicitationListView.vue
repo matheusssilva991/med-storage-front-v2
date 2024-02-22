@@ -32,18 +32,19 @@
                                 <td>{{ solicitation.status }}</td>
                                 <td>{{ solicitation.type }}</td>
                                 <td class="table-actions">
-                                    <button  v-if="solicitation.type ==='Novo usuário'" aria-label="Visualizar"
-                                     @click="openViewUserModal(solicitation._id)">
+                                    <button v-if="solicitation.type === 'Novo usuário'" aria-label="Visualizar"
+                                        @click="openViewUserModal(solicitation._id)">
                                         <font-awesome-icon icon="fa-solid fa-eye" />
                                     </button>
-                                    <button v-else aria-label="Visualizar"
-                                     @click="openViewDatabaseModal(solicitation._id)">
+                                    <button v-else aria-label="Visualizar" @click="openViewDatabaseModal(solicitation._id)">
                                         <font-awesome-icon icon="fa-solid fa-eye" />
                                     </button>
-                                    <button  v-if="solicitation.status === 'Pendente' " aria-label="Excluir">
+                                    <button v-if="solicitation.status === 'Pendente'" aria-label="Confirmar"
+                                        @click="openAcceptConfirmDialog(solicitation._id)">
                                         <font-awesome-icon icon="fa-solid fa-check" />
                                     </button>
-                                    <button v-if="solicitation.status === 'Pendente' " aria-label="Excluir">
+                                    <button v-if="solicitation.status === 'Pendente'" aria-label="Excluir"
+                                        @click="openRejectConfirmDialog(solicitation._id)">
                                         <font-awesome-icon icon="fa-solid fa-xmark" />
                                     </button>
                                 </td>
@@ -66,8 +67,29 @@
     </LoggedTemplateComp>
     <ViewUserSolicitationModalComp v-if="isOpenViewUserModal" :open="isOpenViewUserModal" @close="closeViewUserModal"
         :solicitationId="solicitationId" />
-    <ViewDatabaseSolicitationModalComp v-if="isOpenViewDatabaseModal" :open="isOpenViewDatabaseModal" @close="closeViewDatabaseModal"
-        :solicitationId="solicitationId" />
+
+    <ViewDatabaseSolicitationModalComp v-if="isOpenViewDatabaseModal" :open="isOpenViewDatabaseModal"
+        @close="closeViewDatabaseModal" :solicitationId="solicitationId" />
+
+    <ConfirmDialogComp v-if="isOpenAcceptConfirmDialog" :open="isOpenAcceptConfirmDialog" title="Confirmar"
+        @close="closeAcceptConfirmDialog"
+        :reject-function="closeAcceptConfirmDialog"
+        :accept-function="acceptSolicitation"
+        message="Deseja realmente aceitar essa solicitação?">
+        <template #icon>
+            <font-awesome-icon icon="fa-solid fa-triangle-exclamation" />
+        </template>
+    </ConfirmDialogComp>
+    <ConfirmDialogComp v-if="isOpenRejectConfirmDialog" :open="isOpenRejectConfirmDialog" title="Confirmar"
+        @close="closeRejectConfirmDialog"
+        :reject-function="closeRejectConfirmDialog"
+        :accept-function="rejectSolicitation"
+        message="Deseja realmente recusar essa solicitação"
+        accept-class="btn-danger">
+        <template #icon>
+            <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
+        </template>
+    </ConfirmDialogComp>
 </template>
 
 <script setup lang="ts">
@@ -81,16 +103,21 @@ import ViewUserSolicitationModalComp from '@/components/modals/solicitation/View
 import { getData } from '@/helpers/api';
 import { nextPage, prevPage } from '@/helpers/pagination';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheck, faEye, faFilter, faMagnifyingGlass, faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEye, faFilter, faMagnifyingGlass, faPenToSquare, faXmark, faTriangleExclamation, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { computed, onMounted, ref, watch } from 'vue';
+import ConfirmDialogComp from '@/components/confirmDialog/ConfirmDialogComp.vue';
+import axios from 'axios';
+import { toastError } from '@/helpers/toast-messages';
 
-library.add(faEye, faPenToSquare, faMagnifyingGlass, faFilter, faCheck, faXmark);
+library.add(faEye, faPenToSquare, faMagnifyingGlass, faFilter, faCheck, faXmark, faTriangleExclamation, faCircleExclamation);
 
 // Variáveis reativas
 const solicitations: any = ref([]);
 const user: any = ref({});
 const isOpenViewUserModal = ref(false);
 const isOpenViewDatabaseModal = ref(false);
+const isOpenAcceptConfirmDialog = ref(false);
+const isOpenRejectConfirmDialog = ref(false);
 const search = ref('');
 const filter = ref();
 const page = ref(1);
@@ -122,6 +149,97 @@ const closeViewDatabaseModal = () => {
     isOpenViewDatabaseModal.value = !isOpenViewDatabaseModal.value;
     solicitationId.value = '';
 };
+
+const openAcceptConfirmDialog = (id: string) => {
+    solicitationId.value = id;
+    isOpenAcceptConfirmDialog.value = !isOpenAcceptConfirmDialog.value;
+};
+
+const openRejectConfirmDialog = (id: string) => {
+    solicitationId.value = id;
+    isOpenRejectConfirmDialog.value = !isOpenRejectConfirmDialog.value;
+};
+
+const closeAcceptConfirmDialog = () => {
+    isOpenAcceptConfirmDialog.value = !isOpenAcceptConfirmDialog.value;
+    solicitationId.value = '';
+};
+
+const closeRejectConfirmDialog = () => {
+    isOpenRejectConfirmDialog.value = !isOpenRejectConfirmDialog.value;
+    solicitationId.value = '';
+};
+
+const acceptSolicitation = async () => {
+    try {
+        const responseSolicitation = await getData(`http://localhost:3000/api/solicitation/${solicitationId.value}`);
+        const solicitation = responseSolicitation.data;
+        const token = localStorage.getItem('token');
+        
+        if (solicitation.type === 'newUser') {
+            await axios.post('http://localhost:3000/api/user-by-solicitation', {
+                solicitationId: solicitation._id,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            
+            });
+        } else if (solicitation.type === 'newDatabase') {
+            await axios.post('http://localhost:3000/api/database-by-solicitation', {
+                solicitationId: solicitation._id,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        }
+
+        const response = await getData(`http://localhost:3000/api/solicitations?page=${page.value}&limit=${limit.value}`);
+        solicitations.value = response.data;
+
+        isOpenAcceptConfirmDialog.value = !isOpenAcceptConfirmDialog.value;
+    } catch (error: any) {
+        const messages = error.response.data.message;
+
+		if (Array.isArray(messages)) {
+			for (let message of messages) {
+				toastError(message);
+			}
+		} else {
+			toastError(messages);
+		}
+    }
+}
+
+const rejectSolicitation = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        await axios.patch(`http://localhost:3000/api/solicitation/${solicitationId.value}`, {
+            status: 'rejected',
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const response = await getData(`http://localhost:3000/api/solicitations?page=${page.value}&limit=${limit.value}`);
+        solicitations.value = response.data;
+
+        isOpenRejectConfirmDialog.value = !isOpenRejectConfirmDialog.value;
+
+    } catch (error: any) {
+        const messages = error.response.data.message;
+
+		if (Array.isArray(messages)) {
+			for (let message of messages) {
+				toastError(message);
+			}
+		} else {
+			toastError(messages);
+		}
+    }
+}
 
 // HOOKS
 onMounted(async () => {
