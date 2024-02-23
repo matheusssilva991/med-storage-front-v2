@@ -37,6 +37,7 @@
 							<tr>
 								<th>Nome do banco</th>
 								<th>Tipo de exame</th>
+								<th>Tipo de imagem</th>
 								<th>Quantidade de imagens</th>
 								<th>Ações</th>
 							</tr>
@@ -45,6 +46,7 @@
 							<tr v-for="database in databases" :key="database._id">
 								<td>{{ database.name }}</td>
 								<td>{{ database.examType.name }}</td>
+								<td>{{ database.imageType.name }}</td>
 								<td>{{ database.images.length }}</td>
 								<td class="table-actions">
 									<button aria-label="Visualizar" @click="openViewModal(database._id)">

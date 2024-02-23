@@ -73,7 +73,7 @@
         @close="closeDeleteConfirmDialog"
         :reject-function="closeDeleteConfirmDialog"
         :accept-function="deleteImageType"
-        message="Deseja realmente excluir esse banco?"
+        message="Deseja realmente excluir esse tipo de imagem?"
         accept-class="btn-danger">
         <template #icon>
             <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
@@ -158,8 +158,8 @@ const deleteImageType = async () => {
 				Authorization: `Bearer ${localStorage.getItem('token')}`
 			}
 		});
-		const databasesResponse = await getData(`http://localhost:3000/api/image-type?page=${page.value}&limit=${limit.value}`);
-		imageTypes.value = databasesResponse.data;
+		const imageTypesResponse = await getData(`http://localhost:3000/api/image-types?page=${page.value}&limit=${limit.value}`);
+		imageTypes.value = imageTypesResponse.data;
 		isOpenDeleteConfirmDialog.value = !isOpenDeleteConfirmDialog.value;
 	} catch (error: any) {
 		const messages = error.response.data.message;

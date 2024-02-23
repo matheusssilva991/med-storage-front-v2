@@ -34,7 +34,7 @@
     
                     <div class="input-field">
                         <label for="url">Dados opcionais</label>
-                        <TextAreaCompVue id="optionalData" :isRequired="true" v-model="optionalData" name="optionalData"
+                        <TextAreaCompVue id="optionalData" :isRequired="false" v-model="optionalData" name="optionalData"
                             :max-length="metadataLength" :cols="100" :rows="5"
                             placeholder="Informe os metadados requeridos separados por virgula"/>
                         <ul class="input-field-error" v-if="errors?.optionalData">
@@ -89,9 +89,9 @@ const formSchema = z.object({
     .max(maxLength, { message: `O campo descrição deve ter no máximo ${maxLength} caracteres.` }),
     requiredData: z.string().min(1, { message: 'O campo dados requeridos é requerido.' }).regex(/^([\w\d-]+\s*,\s*)*[\w\d-]+$/,
     { message: 'O campo deve conter apenas metadados separados por vírgula.' }),
-    optionalData: z.string().regex(/^([\w\d-]+\s*,\s*)*[\w\d-]+$/,
+    optionalData: z.string().regex(/^([\w\d-]+\s*,\s*)*[\w\d-]*$/,
     { message: 'O campo deve conter apenas metadados separados por vírgula.' })
-    .optional()
+    .nullable()
 });
 
 type formSchema = z.infer<typeof formSchema>;
@@ -102,7 +102,7 @@ onMounted(async () => {
     name.value = response.data.name;
     description.value = response.data.description;
     requiredData.value = response.data.requiredData.join(',');
-    optionalData.value = response.data.optionalData.join(',');
+    optionalData.value = response.data.optionalData.join(',') || undefined;
 });
 
 const onSubmit = async () => {
