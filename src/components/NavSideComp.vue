@@ -105,7 +105,7 @@ const items = ref([
     gap: 0.5rem;
     padding: 1.3rem;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .navside-item {
@@ -145,7 +145,7 @@ const items = ref([
 
 @media screen and (max-width: 1024px) {
     .navside-container {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -155,7 +155,7 @@ const items = ref([
         flex-wrap: wrap;
         width: 100%;
         height: fit-content;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .navside-item {

@@ -257,9 +257,13 @@ async function register() {
     .button-field button {
         width: 4rem;
     }
+
+    .box {
+        width: 70%;
+    }
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 768px) {
     .input-container {
         flex-direction: column;
     }
@@ -275,6 +279,16 @@ async function register() {
 
     .button-field button {
         width: 3.5rem;
+    }
+
+    .box {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .box {
+        width: 70%;
     }
 }
 </style>

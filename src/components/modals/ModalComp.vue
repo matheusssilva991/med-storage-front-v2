@@ -91,7 +91,7 @@ const close = () => {
 }
 
 .modal-header h1 {
-	font-size: 1.7rem;
+	font-size: 1.9rem;
 	color: var(--color-heading);
 }
 
@@ -110,9 +110,12 @@ const close = () => {
 	border: none;
 	padding: 0;
 	width: fit-content;
-	font-size: 1.3rem;
 	color: var(--color-body-table);
 	background-color: transparent;
+}
+
+.modal-header button * {
+	font-size: 1.5rem;
 }
 
 .modal-header button:hover {
@@ -156,7 +159,7 @@ const close = () => {
 	}
 
 	.modal-header h1 {
-		font-size: 1.5rem;
+		font-size: 1.8rem;
 	}
 }
 
@@ -166,7 +169,7 @@ const close = () => {
 	}
 
 	.modal-header h1 {
-		font-size: 1.4rem;
+		font-size: 1.7rem;
 	}
 }
 </style>

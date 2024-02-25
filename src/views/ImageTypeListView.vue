@@ -211,109 +211,115 @@ watch(page, async (newPage) => {
 
 <style scoped>
 .container {
-	max-height: 800px;
+    max-height: 800px;
 }
 
 .table {
-	border-collapse: collapse;
-	width: 100%;
-	margin-top: 1rem;
-	margin: 0 auto;
-	/* border-top: 1px solid var(--color-border-table); */
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1rem;
+    margin: 0 auto;
+    /* border-top: 1px solid var(--color-border-table); */
 }
 
 .table tr {
-	border-bottom: 1px solid var(--color-border-table);
+    border-bottom: 1px solid var(--color-border-table);
 }
 
 .table th,
 .table td {
-	text-align: center;
-	padding: 0.4rem;
+    text-align: center;
+    padding: 0.4rem;
 }
 
 .table th {
-	color: var(--color-text-heading);
-	font-size: 1.12rem;
-	font-weight: 800;
+    color: var(--color-text-heading);
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.table tr td {
+    font-size: 1.1rem;
 }
 
 .table tbody tr {
-	color: var(--color-body-table);
-	font-size: 1rem;
+    color: var(--color-body-table);
 }
 
 .table tbody tr:hover {
-	/*     color: var(--color-text-table-hover); */
-	background-color: var(--color-background-table-hover);
+    /*     color: var(--color-text-table-hover); */
+    background-color: var(--color-background-table-hover);
 }
 
 .table-actions {
-	display: flex;
-	justify-content: center;
-	gap: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .table-actions button {
-	border: none;
-	padding: 0;
-	width: fit-content;
-	font-size: 1rem;
-	color: var(--color-body-table);
-	background-color: transparent;
+    border: none;
+    padding: 0;
+    width: fit-content;
+    color: var(--color-body-table);
+    background-color: transparent;
+}
+
+.table-actions button * {
+    font-size: 1.1rem;
 }
 
 .table-actions button:hover {
-	color: var(--color-heading);
-	cursor: pointer;
+    color: var(--color-heading);
+    cursor: pointer;
 }
 
 .table-actions button:active {
-	transform: scale(0.9);
+    transform: scale(0.9);
 }
 
 .table-actions button:focus {
-	outline: none;
+    outline: none;
 }
 
 .buttons-container {
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-	gap: 0.5rem;
-	margin-top: 1.2rem;
-	padding-right: 1.3rem;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    padding-right: 1.3rem;
 }
 
 .buttons-container button {
-	width: fit-content;
+    width: fit-content;
 }
 
 @media only screen and (max-width: 1024px) {
-	.table th {
-		font-size: 0.9rem;
-	}
+    .table th {
+        font-size: 1.1rem;
+    }
 
-	.table tbody tr {
-		font-size: 0.8rem;
-	}
+    .table tr td {
+        font-size: 1rem;
+    }
 
-	.table-actions button {
-		font-size: 0.9rem;
-	}
+    .table-actions button * {
+        font-size: 1rem;
+    }
 }
 
-@media only screen and (max-width: 720px) {
-	.table th {
-		font-size: 0.8rem;
-	}
+@media only screen and (max-width: 720px) {   
+    .table th {
+        font-size: 0.9rem;
+    }
 
-	.table tbody tr {
-		font-size: 0.7rem;
-	}
+    .table tr td {
+        font-size: 0.9rem;
+    }
 
-	.table-actions button {
-		font-size: 0.8rem;
-	}
+    .table-actions button * {
+        font-size: 0.9rem;
+    }
 }
 </style>

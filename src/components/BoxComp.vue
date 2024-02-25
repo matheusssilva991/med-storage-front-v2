@@ -55,11 +55,12 @@ const props = defineProps({
     justify-content: flex-start;
     gap: 0.5rem;
     flex-wrap: wrap;
+    font-size: 1.9rem;
 }
 
 .title-button {
     margin-top: 0.5rem;
-    width: 15%;
+    width: 12%;
 }
 
 .inputs {
@@ -81,12 +82,27 @@ const props = defineProps({
     }
 
     .title {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
     }
 
     .title-button {
         font-size: 0.9rem;
         margin-top: 0.4rem;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .title {
+        width: 100%;
+    }
+
+    .inputs {
+        width: 40%;
     }
 }
 
@@ -102,14 +118,19 @@ const props = defineProps({
 
     .title {
         width: 100%;
+        font-size: 1.7rem;
     }
 
     .title-button {
         width: 8%;
     }
 
+    .title-button:deep(button) {
+        padding: 0.1rem 0.5rem;
+    }
+
     .inputs {
-        width: 50%;
+        width: 40%;
     }
 }
 </style>

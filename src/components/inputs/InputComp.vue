@@ -41,12 +41,13 @@ input {
   border-radius: var(--border-radius);
   color: var(--color-text-input);
   background-color: var(--color-background-input);
-  padding: 0.4em 0.6em;
+  padding: 0.22rem 0.7rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 0.5rem;
   width: 100%;
+  font-size: 1rem;
   /* box-shadow: 0.6px 1.1px 1.1px hsl(0deg 0% 0% / 0.48); */
 }
 
@@ -70,18 +71,30 @@ input:disabled {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5em;
+  gap: 0.5rem;
 }
 
 @media only screen and (max-width: 1024px) {
     input {
-        font-size: 0.9em;
-        padding: 0.3em 0.6em;
+        font-size: 0.9rem;
+        padding: 0.2rem 0.6rem;
     }
 
     .input-container {
         gap: 0.3rem;
-        font-size: 0.8em;
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    input {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .input-container {
+        gap: 0.3rem;
+        font-size: 0.8rem;
     }
 }
 

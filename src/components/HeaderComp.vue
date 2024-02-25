@@ -3,10 +3,10 @@
         <div class="header">
             <div class="header-logo">
                 <router-link to="/" v-if="!isLogged">
-                    <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px" />
+                    <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
                 </router-link>
                 <router-link to="/databases" v-else>
-                    <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px" />
+                    <img src="../assets/images/logo.png" alt="Logo MedStorage" width="150px"/>
                 </router-link>
             </div>
             <div v-if="isSmallScreen && !isLogged" class="header-login-sandwich" @click="isClicked = !isClicked">
@@ -193,7 +193,8 @@ watch(router.currentRoute, (newRoute) => {
     background-color: var(--color-background-header);
     display: flex;
     justify-content: center;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+    flex-wrap: wrap;
 }
 
 .header-container-clicked {
@@ -201,38 +202,33 @@ watch(router.currentRoute, (newRoute) => {
 }
 
 .header {
-    width: 97%;
+    width: 98%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.header-logo {
-    width: 45%;
 }
 
 .header-login-form {
-    align-items: center;
-    width: 55%;
     display: flex;
-    gap: 1.5rem;
+    align-items: center;
+    width: 60%;
     color: var(--color-heading);
     justify-content: flex-end;
+    gap: 1.5rem;
 }
 
 .header-login-form-inputs {
     display: flex;
-    gap: 0.6rem;
-    width: 55%;
+    width: 50%;
+    gap: 0.5rem;
 }
 
 .header-login-form-btn {
     display: flex;
-    gap: 0.6rem;
-    justify-content: center;
-    width: 25%;
+    justify-content: flex-end;
+    width: fit-content;
+    gap: 0.7rem;
 }
 
 .header-login-sandwich {
@@ -250,18 +246,21 @@ watch(router.currentRoute, (newRoute) => {
 }
 
 .btn-login {
-    width: 10px;
+    width: fit-content;
 }
 
 .rotated {
     transform: rotate(90deg);
 }
 
+
 @media only screen and (max-width: 768px) {
 
     .header {
         gap: 1rem;
         justify-content: space-around;
+        width: 100vw;
+        flex-wrap: wrap;
     }
 
     .header-login-form {
@@ -281,6 +280,5 @@ watch(router.currentRoute, (newRoute) => {
         gap: 1rem;
         width: 60%;
     }
-
 }
 </style>

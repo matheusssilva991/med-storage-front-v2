@@ -294,13 +294,16 @@ const processedUsers = computed(() => {
 
 .table th {
     color: var(--color-text-heading);
-    font-size: 1.12rem;
+    font-size: 1.2rem;
     font-weight: 800;
+}
+
+.table tr td {
+    font-size: 1.1rem;
 }
 
 .table tbody tr {
     color: var(--color-body-table);
-    font-size: 1rem;
 }
 
 .table tbody tr:hover {
@@ -318,9 +321,12 @@ const processedUsers = computed(() => {
     border: none;
     padding: 0;
     width: fit-content;
-    font-size: 1rem;
     color: var(--color-body-table);
     background-color: transparent;
+}
+
+.table-actions button * {
+    font-size: 1.1rem;
 }
 
 .table-actions button:hover {
@@ -351,29 +357,29 @@ const processedUsers = computed(() => {
 
 @media only screen and (max-width: 1024px) {
     .table th {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
 
-    .table tbody tr {
-        font-size: 0.8rem;
+    .table tr td {
+        font-size: 1rem;
     }
 
-    .table-actions button {
-        font-size: 0.9rem;
+    .table-actions button * {
+        font-size: 1rem;
     }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 720px) {   
     .table th {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
-    .table tbody tr {
-        font-size: 0.7rem;
+    .table tr td {
+        font-size: 0.9rem;
     }
 
-    .table-actions button {
-        font-size: 0.8rem;
+    .table-actions button * {
+        font-size: 0.9rem;
     }
 }
 </style>

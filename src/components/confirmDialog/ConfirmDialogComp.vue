@@ -78,8 +78,12 @@ const props = defineProps({
     gap: 1rem;
 }
 
-.confirm-dialog-message div:nth-child(1) {
+.confirm-dialog-message:deep(*):nth-child(1) {
     font-size: 1.5rem;
+}
+
+.confirm-dialog-message:deep(*):nth-child(2) {
+    font-size: 1.2rem;
 }
 
 .confirm-dialog-buttons {
@@ -90,5 +94,25 @@ const props = defineProps({
 
 .confirm-dialog-buttons button {
     width: fit-content;
+}
+
+@media only screen and (max-width: 1024px) {
+    .confirm-dialog-message:deep(*):nth-child(1) {
+        font-size: 1.4rem;
+    }
+
+    .confirm-dialog-message:deep(*):nth-child(2) {
+        font-size: 1.1rem;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .confirm-dialog-message:deep(*):nth-child(1) {
+        font-size: 1.3rem;
+    }
+
+    .confirm-dialog-message:deep(*):nth-child(2) {
+        font-size: 0.9rem;
+    }
 }
 </style>

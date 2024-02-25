@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { getData } from '@/helpers/api';
+import { getData, updateData } from '@/helpers/api';
 import { toastError, toastSuccess } from '@/helpers/toast-messages';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
@@ -121,33 +121,21 @@ const onSubmit = async () => {
 };
 
 const update = async () => {
-    try {
-        const requiredDataArray = requiredData.value.split(',');
-        const optionalDataArray = optionalData.value.split(',');
+    const requiredDataArray = requiredData.value.split(',');
+    const optionalDataArray = optionalData.value.split(',');
 
-        await axios.patch(`http://localhost:3000/api/image-type/${props.imageTypeId}`, {
-            name: name.value,
-            description: description.value,
-            requiredData: requiredDataArray,
-            optionalData: optionalDataArray
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+    const data = {
+        name: name.value,
+        description: description.value,
+        requiredData: requiredDataArray,
+        optionalData: optionalDataArray
+    };
+
+    const response = await updateData(`http://localhost:3000/api/image-type/${props.imageTypeId}`, data);
+    
+    if (response) {
         toastSuccess('Tipo de imagem atualizado com sucesso!');
         close();
-    } catch (error: any) {
-        const messages = error?.response?.data?.message;
-
-        if (typeof messages === 'object') {
-            messages.forEach((message: string) => {
-                toastError(message);
-            });
-        } else {
-            toastError(messages);
-        }
     }
 };
 

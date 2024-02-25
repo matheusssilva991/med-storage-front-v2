@@ -1,7 +1,9 @@
 <template>
-    <button :class="btnClass" :type="btnType" :disabled="isDisabled" 
-    :id="disabled">
-        <slot name="icon"></slot>
+    <button :class="buttonClass" :type="btnType" :disabled="isDisabled" 
+    >
+        <div class="icon-container">
+            <slot name="icon"></slot>
+        </div>
         {{ text }}
     </button>
 </template>
@@ -47,8 +49,8 @@ const props = defineProps({
     }
 });
 
-const disabled = ref('');
-disabled.value = props.isDisabled ? 'disabled' : '';
+const buttonClass = ref(props.btnClass);
+buttonClass.value = props.isDisabled ? buttonClass.value + ` disabled` : buttonClass.value;
 
 </script>
 
@@ -60,40 +62,55 @@ button {
     align-items: center;
     justify-content: space-around;
     border-radius: var(--border-radius);
-    padding: 0.3em 0.8em;
+    padding: 0.22rem 0.7rem;
     cursor: pointer;
     min-width: fit-content;
     gap: 0.3rem;
+    font-size: 1rem;
 }
 
 button:active {
     transform: scale(0.98);
 }
 
-#disabled {
+.icon-container:deep(*) {
+    font-size: 1rem;
+}
+
+button.disabled {
     cursor: not-allowed;
     opacity: 0.3;
     background-color: var(--color-background-btn-disabled);
+    content: #ffff;
 }
 
-#disabled:active {
+button.disabled:active {
     transform: scale(1);
 }
 
-#disabled:hover {
+button.disabled:hover {
     background-color: var(--color-background-btn-disabled);
 }
 
 @media only screen and (max-width: 1024px) {
     button {
-        font-size: 0.6em;
-        padding: 0.3em 0.7em;
+        font-size: 0.9rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .icon-container:deep(*) {
+        font-size: 0.9rem;
     }
 }
 
 @media only screen and (max-width: 768px) {
     button {
-        font-size: 0.55em;
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .icon-container:deep(*) {
+        font-size: 0.8rem;
     }
 }
 

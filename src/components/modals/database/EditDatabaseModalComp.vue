@@ -78,7 +78,7 @@ import TextAreaCompVue from '../../inputs/TextAreaComp.vue';
 import { ref, onMounted, computed } from 'vue';
 import * as z from 'zod';
 import SelectInputComp from '@/components/inputs/SelectInputComp.vue';
-import { getData } from '@/helpers/api';
+import { getData, updateData } from '@/helpers/api';
 import { toastSuccess, toastError } from '@/helpers/toast-messages';
 
 const name = ref("");
@@ -140,32 +140,20 @@ const onSubmit = async () => {
 };
 
 const update = async () => {
-    try {
-        await axios.patch(`http://localhost:3000/api/database/${props.databaseId}`, {
-            name: name.value,
-            description: description.value,
-            examType: examType.value._id,
-            imageType: imageType.value._id,
-            imageQuality: imageQualityArray.value,
-            url: url.value
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+    const data = {
+        name: name.value,
+        description: description.value,
+        examType: examType.value._id,
+        imageType: imageType.value._id,
+        imageQuality: imageQualityArray.value,
+        url: url.value
+    };
+
+    const response = await updateData(`http://localhost:3000/api/database/${props.databaseId}`, data);
+
+    if (response) {
         toastSuccess('Banco de imagens atualizado com sucesso!');
         close();
-    } catch (error: any) {
-        const messages = error?.response?.data?.message;
-
-        if (typeof messages === 'object') {
-            messages.forEach((message: string) => {
-                toastError(message);
-            });
-        } else {
-            toastError(messages);
-        }
     }
 };
 

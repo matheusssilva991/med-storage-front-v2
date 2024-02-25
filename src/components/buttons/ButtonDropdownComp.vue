@@ -1,8 +1,12 @@
 <template>
     <button :class="btnClass" :type="btnType" @click="() => active = !active">
-        <slot name="icon"></slot>
+        <div class="icon-container">
+            <slot name="icon"></slot>
+        </div>
         {{ text }}
-        <font-awesome-icon icon="fa-solid fa-caret-down" />
+        <div class="icon-container">
+            <font-awesome-icon icon="fa-solid fa-caret-down" />
+        </div>
     </button>
     <ul class="dropdown" v-if="active">
         <slot name="dropdownItens"></slot>
@@ -60,7 +64,7 @@ defineProps({
     color: var(--color-text);
     background-color: var(--color-background-header);
     position: absolute;
-    margin-top: 0.3em;
+    margin-top: 0.3rem;
     border-radius: var(--border-radius);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
     z-index: 1;
@@ -74,9 +78,14 @@ ul {
 }
 
 .dropdown:deep(li) {
-    padding: 0.4em 0.7em;
+    padding: 0.2rem 0.7rem;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 1rem;
+}
+
+.dropdown:deep(*) {
+    font-size: 1rem;
+    padding: 0.2rem 0.7rem;
 }
 
 .dropdown:deep(li:hover) {
@@ -99,33 +108,63 @@ ul {
     color: var(--color-background-header);
 }
 
+.icon-container:deep(*) {
+    font-size: 1.1rem;
+}
+
+
 button {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
     border-radius: var(--border-radius);
-    padding: 0.3em 0.8em;
+    padding: 0.22rem 0.7rem;
     cursor: pointer;
     min-width: fit-content;
     gap: 0.3rem;
-    font-size: 1em;
+    font-size: 1.1rem;
 }
 
 @media only screen and (max-width: 1024px) {
     button {
-        font-size: 0.9em;
-        padding: 0.4em 0.7em;
+        font-size: 1rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .icon-container:deep(*) {
+        font-size: 1rem;
     }
 
     .dropdown:deep(li) {
-        font-size: 0.8em;
-    } 
+        font-size: 0.9em;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .dropdown:deep(*) {
+        font-size: 0.9rem;
+        padding: 0.1rem 0.6rem;
+    }
 }
 
 @media only screen and (max-width: 768px) {
     button {
-        font-size: 0.8em;
+        font-size: 0.9rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .icon-container:deep(*) {
+        font-size: 0.9rem;
+    }
+
+    .dropdown:deep(li) {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .dropdown:deep(*) {
+        font-size: 0.8rem;
+        padding: 0.1rem 0.5rem;
     }
 }
 

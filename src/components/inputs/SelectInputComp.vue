@@ -40,11 +40,11 @@ select {
   border-radius: var(--border-radius);
   color: var(--color-text-input);
   background-color: var(--color-background-input);
-  padding: 0.4em 0.4em;
+  padding: 0.15rem 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 0.5rem;
   width: 100%;
   /* box-shadow: 0.6px 1.1px 1.1px hsl(0deg 0% 0% / 0.48); */
 }
@@ -65,12 +65,13 @@ select:disabled {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5em;
+  gap: 0.5rem;
 }
 
 option {
     color: var(--color-heading);
-    padding: 0.4em 0.4em;
+    padding: 0.2rem 0.2rem;
+    font-size: 0.9rem;
 }
 
 option:focus {
@@ -80,12 +81,25 @@ option:focus {
 
 @media only screen and (max-width: 1024px) {
     select {
-        font-size: 0.9em;
+        font-size: 0.9rem;
+        padding: 0.13rem 0rem;
     }
 
     .select-container {
-        gap: 0.3rem;
-        font-size: 0.8em;
+        gap: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    select {
+        font-size: 0.8rem;
+        padding: 0.13rem 0rem;
+    }
+
+    .select-container {
+        gap: 0.2rem;
+        font-size: 0.8rem;
     }
 }
 

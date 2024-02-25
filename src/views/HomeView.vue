@@ -34,6 +34,10 @@ h1 {
   font-size: 2.5rem;
 }
 
+p {
+  font-size: 1.2rem;
+}
+
 .main-container {
   display: flex;
   flex-direction: row;
@@ -75,13 +79,23 @@ h1 {
   max-width: fit-content;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1024px) {
+  h1 {
+    font-size: 2.3rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
   h1 {
     font-size: 2rem;
   }
 
   p {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 
 	.main-content {
@@ -93,7 +107,7 @@ h1 {
   }
 
   .image-container {
-    margin: 0 auto;
+    margin: 0.2rem auto;
   }
 }
 </style>

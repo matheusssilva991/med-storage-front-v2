@@ -84,6 +84,10 @@ const close = () => {
 	gap: 1.5rem;
 }
 
+.confirm-dialog-header button * {
+	font-size: 1.5rem;
+}
+
 .confirm-dialog-header h1 {
 	font-size: 1.5rem;
 	color: var(--color-heading);
@@ -147,7 +151,11 @@ const close = () => {
 	}
 
 	.confirm-dialog-header h1 {
-		font-size: 1.5rem;
+		font-size: 1.4rem;
+	}
+
+	.confirm-dialog-content {
+		max-width: 300px;
 	}
 }
 
@@ -157,7 +165,11 @@ const close = () => {
 	}
 
 	.confirm-dialog-header h1 {
-		font-size: 1.4rem;
+		font-size: 1.2rem;
+	}
+
+	.confirm-dialog-content {
+		max-width: 200px;
 	}
 }
 </style>
