@@ -50,7 +50,7 @@
                         <font-awesome-icon icon="fa-solid fa-circle-user" />
                     </template>
                     <template #dropdownItens>
-                        <li>
+                        <li @click="isOpenEditProfileModal = !isOpenEditProfileModal">
                             Editar Perfil
                         </li>
                         <li @click="logout">
@@ -60,6 +60,8 @@
                 </ButtonDropdownComp>
             </div>
         </div>
+        <EditUserProfileModalComp v-if="isOpenEditProfileModal" :open="isOpenEditProfileModal"
+         @close="isOpenEditProfileModal = !isOpenEditProfileModal" :userId="user._id" />
     </header>
 </template>
 
@@ -77,6 +79,7 @@ import { toastSuccess, toastError } from '@/helpers/toast-messages';
 import axios from 'axios';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { checkToken } from '@/helpers/auth';
+import EditUserProfileModalComp from './modals/user/EditUserProfileModalComp.vue';
 
 // Variáveis
 const router = useRouter(); // Para navegação
@@ -91,6 +94,7 @@ const isClicked = ref(false);
 const isLogged = ref(false);
 const user = ref();
 const currentRoute = ref(router.currentRoute.value.path);
+const isOpenEditProfileModal = ref();
 
 if (windowWidth.value < 720) {
     isSmallScreen.value = true;

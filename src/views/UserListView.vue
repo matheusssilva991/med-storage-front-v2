@@ -48,7 +48,7 @@
                                         @click="openEditModal(currentUser._id)">
                                         <font-awesome-icon icon="fa-solid fa-pen-to-square" />
                                     </button>
-                                    <button v-else aria-label="Editar" @click="openEditProfileModal(currentUser._id)">
+                                    <button v-else aria-label="Editar Perfil" @click="openEditProfileModal(currentUser._id)">
                                         <font-awesome-icon icon="fa-solid fa-pen-to-square" />
                                     </button>
                                     <button v-if="currentUser._id !== user._id" aria-label="Excluir"
