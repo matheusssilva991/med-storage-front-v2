@@ -1,56 +1,54 @@
 <template>
-        <ModalComp :open="open" title="Usuário" @close="close">
-            <template #content>
-                <div class="form-container">
-                    <div class="input-field">
-                        <label for="name">Nome</label>
-                        <InputComp id="name" :isRequired="true" v-model="name"
-                            name="name" :is-disabled="true"/>
-                    </div>
-
-                    <div class="input-field">
-                        <label for="E-mail">E-mail</label>
-                        <InputComp type="email" id="email" :isRequired="true"
-                            v-model="email" name="email"  :is-disabled="true"/>
-                    </div>
-
-                    <div class="input-field">
-                        <label for="institution">Instituição</label>
-                        <InputComp id="institution" :isRequired="true"
-                            v-model="institution" name="institution"  :is-disabled="true"/>
-                    </div>
-
-                    <div class="input-field">
-                        <label for="country">País</label>
-                        <InputComp id="country" :isRequired="true" v-model="country"
-                            name="country"  :is-disabled="true"/>
-                    </div>
-
-                    <div class="input-field">
-                        <label for="city">Cidade</label>
-                        <InputComp id="city" v-model="city" name="city"  :is-disabled="true"/>
-                    </div>
-
-
-                    <div class="input-field">
-                        <label for="lattes">Currículo Lattes</label>
-                        <InputComp id="lattes" v-model="lattes" name="lattes"  :is-disabled="true"/>
-                    </div>
-
-
-                    <div class="input-field">
-                        <label for="role">Cargo</label>
-                        <InputComp id="role" v-model="role" name="role"  :is-disabled="true"/>
-                    </div>
+    <ModalComp :open="open" title="Usuário" @close="close">
+        <template #content>
+            <div class="form-container">
+                <div class="input-field">
+                    <label for="name">Nome</label>
+                    <InputComp id="name" :isRequired="true" v-model="name" name="name" :is-disabled="true" />
                 </div>
-            </template>
 
-            <template #footer>
-                <div class="button-field">
-                    <ButtonComp btn-class="btn-secondary" text="Fechar" @click="close" />
+                <div class="input-field">
+                    <label for="E-mail">E-mail</label>
+                    <InputComp type="email" id="email" :isRequired="true" v-model="email" name="email"
+                        :is-disabled="true" />
                 </div>
-            </template>
-        </ModalComp>
+
+                <div class="input-field">
+                    <label for="institution">Instituição</label>
+                    <InputComp id="institution" :isRequired="true" v-model="institution" name="institution"
+                        :is-disabled="true" />
+                </div>
+
+                <div class="input-field">
+                    <label for="country">País</label>
+                    <InputComp id="country" :isRequired="true" v-model="country" name="country" :is-disabled="true" />
+                </div>
+
+                <div class="input-field">
+                    <label for="city">Cidade</label>
+                    <InputComp id="city" v-model="city" name="city" :is-disabled="true" />
+                </div>
+
+
+                <div class="input-field">
+                    <label for="lattes">Currículo Lattes</label>
+                    <InputComp id="lattes" v-model="lattes" name="lattes" :is-disabled="true" />
+                </div>
+
+
+                <div class="input-field">
+                    <label for="role">Cargo</label>
+                    <InputComp id="role" v-model="role" name="role" :is-disabled="true" />
+                </div>
+            </div>
+        </template>
+
+        <template #footer>
+            <div class="button-field">
+                <ButtonComp btn-class="btn-secondary" text="Fechar" @click="close" />
+            </div>
+        </template>
+    </ModalComp>
 </template>
 
 <script setup lang="ts">

@@ -36,18 +36,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user in processedUsers" :key="user._id">
-                                <td>{{ user.name }}</td>
-                                <td>{{ user.institution }}</td>
-                                <td>{{ user.role }}</td>
+                            <tr v-for="currentUser in processedUsers" :key="currentUser._id">
+                                <td>{{ currentUser.name }}</td>
+                                <td>{{ currentUser.institution }}</td>
+                                <td>{{ currentUser.role }}</td>
                                 <td class="table-actions">
-                                    <button aria-label="Visualizar" @click="openViewModal(user._id)">
+                                    <button aria-label="Visualizar" @click="openViewModal(currentUser._id)">
                                         <font-awesome-icon icon="fa-solid fa-eye" />
                                     </button>
-                                    <button aria-label="Editar" @click="openEditModal(user._id)">
+                                    <button v-if="currentUser._id !== user._id" aria-label="Editar"
+                                        @click="openEditModal(currentUser._id)">
                                         <font-awesome-icon icon="fa-solid fa-pen-to-square" />
                                     </button>
-                                    <button aria-label="Excluir" @click="openDeleteConfirmDialog(user._id)">
+                                    <button v-else aria-label="Editar" @click="openEditProfileModal(currentUser._id)">
+                                        <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+                                    </button>
+                                    <button v-if="currentUser._id !== user._id" aria-label="Excluir"
+                                        @click="openDeleteConfirmDialog(user._id)">
                                         <font-awesome-icon icon="fa-solid fa-trash" />
                                     </button>
                                 </td>
@@ -70,7 +75,9 @@
     </LoggedTemplateComp>
     <CreateUserModalComp :open="isOpenCreateModal" @close="closeCreateModal" />
     <ViewUserModalComp v-if="isOpenViewModal" :open="isOpenViewModal" @close="closeViewModal" :userId="userId" />
-    <EditDatabaseModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal" :databaseId="userId" />
+    <EditUserRoleModalComp v-if="isOpenEditModal" :open="isOpenEditModal" @close="closeEditModal" :userId="userId" />
+    <EditUserProfileModalComp v-if="isOpenEditProfileModal" :open="isOpenEditProfileModal" @close="closeEditProfileModal"
+        :userId="userId" />
     <ConfirmDialogComp v-if="isOpenDeleteConfirmDialog" :open="isOpenDeleteConfirmDialog" title="Confirmar"
         @close="closeDeleteConfirmDialog" :reject-function="closeDeleteConfirmDialog" :accept-function="deleteUser"
         message="Deseja realmente excluir esse usuário?" accept-class="btn-danger">
@@ -87,8 +94,9 @@ import ButtonComp from '@/components/buttons/ButtonComp.vue';
 import ConfirmDialogComp from '@/components/confirmDialog/ConfirmDialogComp.vue';
 import InputComp from '@/components/inputs/InputComp.vue';
 import SelectInputComp from '@/components/inputs/SelectInputComp.vue';
-import EditDatabaseModalComp from '@/components/modals/database/EditDatabaseModalComp.vue';
 import CreateUserModalComp from '@/components/modals/user/CreateUserModalComp.vue';
+import EditUserProfileModalComp from '@/components/modals/user/EditUserProfileModalComp.vue';
+import EditUserRoleModalComp from '@/components/modals/user/EditUserRoleModalComp.vue';
 import ViewUserModalComp from '@/components/modals/user/ViewUserModalComp.vue';
 import { getData } from '@/helpers/api';
 import { nextPage, prevPage } from '@/helpers/pagination';
@@ -106,6 +114,7 @@ const user: any = ref({});
 const isOpenViewModal = ref(false);
 const isOpenCreateModal = ref(false);
 const isOpenEditModal = ref(false);
+const isOpenEditProfileModal = ref(false);
 const isOpenDeleteConfirmDialog = ref(false);
 const search = ref('');
 const filter = ref();
@@ -141,6 +150,18 @@ const closeViewModal = () => {
 
 const closeEditModal = async () => {
     isOpenEditModal.value = !isOpenEditModal.value;
+    userId.value = '';
+    const response = await getData(`http://localhost:3000/api/users?page=${page.value}&limit=${limit.value}`);
+    users.value = response.data;
+};
+
+const openEditProfileModal = (id: string) => {
+    isOpenEditProfileModal.value = !isOpenEditProfileModal.value;
+    userId.value = id;
+};
+
+const closeEditProfileModal = async () => {
+    isOpenEditProfileModal.value = !isOpenEditProfileModal.value;
     userId.value = '';
     const response = await getData(`http://localhost:3000/api/users?page=${page.value}&limit=${limit.value}`);
     users.value = response.data;
@@ -185,6 +206,8 @@ onMounted(async () => {
     user.value = response.user;
     users.value = response.data;
     filter.value = { value: 'Todos os cargos', _id: '0' };
+    console.log(user.value);
+    console.log(users.value);
 });
 
 watch([search, filter], async (newValues) => {
